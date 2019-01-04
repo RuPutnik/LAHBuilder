@@ -1,8 +1,0 @@
-.idea
-pom.xml
-LahBuilder.iml
-.gitignore
-src/test
-out
-target
-logs
