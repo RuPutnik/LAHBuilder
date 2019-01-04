@@ -28,18 +28,16 @@ public class MainController extends Application implements Initializable {
     @FXML
     LogarithmicNumberAxis xAxis;
 
-    XYChart.Series<Integer,Integer> ser1=new XYChart.Series<>();
-    public static void main(String[] args) {
-        launch();
-    }
+    //XYChart.Series<Integer,Integer> ser1=new XYChart.Series<>();
+
 
     @Override
     public void start(Stage primaryStage) throws Exception {
         Parent parent=FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("MainPaneBuilder.fxml")));
         primaryStage.setScene(new Scene(parent));
 
-        primaryStage.setWidth(650);
-        primaryStage.setHeight(450);
+        primaryStage.setWidth(940);
+        primaryStage.setHeight(500);
         primaryStage.setResizable(false);
         primaryStage.show();
 
@@ -60,9 +58,9 @@ public class MainController extends Application implements Initializable {
         xAxis.setUpperBound(1000);
         xAxis.setTickLabelFont(new Font(8));
 
-        ser1.getData().addAll(new XYChart.Data<>(10,20),new XYChart.Data<>(100,40));
+        //ser1.getData().addAll(new XYChart.Data<>(10,20),new XYChart.Data<>(100,40));
 
-        chart.getData().add(ser1);
+        //chart.getData().add(ser1);
 
 
     }
