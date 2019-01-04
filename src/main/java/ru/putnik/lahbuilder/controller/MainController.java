@@ -1,4 +1,4 @@
-package ru.putnik.lahbuilder;
+package ru.putnik.lahbuilder.controller;
 
 import javafx.application.Application;
 import javafx.fxml.FXML;
@@ -14,12 +14,13 @@ import javafx.stage.Stage;
 import ru.putnik.lahbuilder.axis.LogarithmicNumberAxis;
 
 import java.net.URL;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 /**
  * Создано 03.01.2019 в 23:45
  */
-public class LAHBuilderMain extends Application implements Initializable {
+public class MainController extends Application implements Initializable {
     @FXML
     LineChart<Integer,Integer> chart;
     @FXML
@@ -34,7 +35,7 @@ public class LAHBuilderMain extends Application implements Initializable {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Parent parent =FXMLLoader.load(getClass().getResource("MainPaneBuilder.fxml"));
+        Parent parent=FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("MainPaneBuilder.fxml")));
         primaryStage.setScene(new Scene(parent));
 
         primaryStage.setWidth(650);

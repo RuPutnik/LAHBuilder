@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.Pane?>
 
 <?import ru.putnik.lahbuilder.axis.LogarithmicNumberAxis?>
-<Pane prefHeight="420.0" prefWidth="626.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.putnik.lahbuilder.LAHBuilderMain">
+<Pane prefHeight="420.0" prefWidth="626.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.putnik.lahbuilder.controller.MainController">
    <children>
       <LineChart fx:id="chart" layoutX="-1.0" layoutY="1.0" prefHeight="420.0" prefWidth="626.0">
         <xAxis>
