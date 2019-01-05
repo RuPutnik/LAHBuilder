@@ -36,7 +36,7 @@ public class MainController extends Application implements Initializable {
         Parent parent=FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("MainPaneBuilder.fxml")));
         primaryStage.setScene(new Scene(parent));
 
-        primaryStage.setWidth(940);
+        primaryStage.setWidth(915);
         primaryStage.setHeight(500);
         primaryStage.setResizable(false);
         primaryStage.show();
