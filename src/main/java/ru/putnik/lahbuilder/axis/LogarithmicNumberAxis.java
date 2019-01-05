@@ -143,24 +143,18 @@ public class LogarithmicNumberAxis extends ValueAxis<Number> {
      */
     @Override
     protected String getTickMarkLabel(Number value) {
-       // double dValue=value.doubleValue();
-
-     //   if(String.valueOf(value.doubleValue()).equals("100.0") ){
             NumberFormat formatter = NumberFormat.getInstance();
             formatter.setMaximumIntegerDigits(10);
             formatter.setMinimumIntegerDigits(1);
             String formatValue=formatter.format(value);
-       // System.out.println(formatValue);
-        if(formatValue.equals("0,1")||formatValue.equals("1")||formatValue.equals("10")||formatValue.equals("100")||formatValue.equals("1 000")) {
-            return formatValue;
-        }else {
-            return "";
-        }
-        //}else {
-        //    System.out.println(value.doubleValue());
-        //    return "";
-       // }
 
+            double valueDouble=Double.parseDouble(formatValue.replace(",",".").replace(" ",""));
+
+            if((int)Math.log10(valueDouble)==Math.log10(valueDouble)){
+                return formatValue;
+            }else {
+                return "";
+            }
     }
 
     /**

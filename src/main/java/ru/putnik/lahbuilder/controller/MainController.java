@@ -8,7 +8,9 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
-import javafx.scene.chart.XYChart;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import ru.putnik.lahbuilder.axis.LogarithmicNumberAxis;
@@ -22,11 +24,19 @@ import java.util.ResourceBundle;
  */
 public class MainController extends Application implements Initializable {
     @FXML
-    LineChart<Integer,Integer> chart;
+    private LineChart<Integer,Integer> chart;
     @FXML
-    NumberAxis yAxis;
+    private NumberAxis yAxis;
     @FXML
-    LogarithmicNumberAxis xAxis;
+    private LogarithmicNumberAxis xAxis;
+    @FXML
+    private Label tfLabel;
+    @FXML
+    private ListView linksListView;
+    @FXML
+    private Button addLinkButton;
+    @FXML
+    private Button deleteLinkButton;
 
     //XYChart.Series<Integer,Integer> ser1=new XYChart.Series<>();
 
