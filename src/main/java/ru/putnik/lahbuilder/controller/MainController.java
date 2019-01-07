@@ -21,6 +21,7 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 import ru.putnik.lahbuilder.Link;
 import ru.putnik.lahbuilder.axis.LogarithmicNumberAxis;
+import ru.putnik.lahbuilder.model.MainModel;
 
 import java.net.URL;
 import java.util.Objects;
@@ -30,6 +31,7 @@ import java.util.ResourceBundle;
  * Создано 03.01.2019 в 23:45
  */
 public class MainController extends Application implements Initializable {
+    private MainModel mainModel=new MainModel();
     @FXML
     private LineChart<Integer,Integer> chart;
     @FXML
@@ -49,6 +51,7 @@ public class MainController extends Application implements Initializable {
 
     //XYChart.Series<Integer,Integer> ser1=new XYChart.Series<>();
 
+    private int numberSelectedLink=0;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -90,18 +93,27 @@ public class MainController extends Application implements Initializable {
                     if(item!=null) {
                         setText(item.getNameLink());
                     }
+                    if(empty){
+                        setText(null);
+                        setGraphic(null);
+                    }
                 }
             };
             return listCell;
         });
 
-        //Testing code
-        linksListView.getItems().add(new Link(Link.Type.Апериодическое1,3));
-        linksListView.getItems().add(new Link(Link.Type.Усилитель,10));
+        ////Testing code
+        Link l1=new Link(Link.Type.Апериодическое1,3);
+        mainModel.addLink(l1);
+        linksListView.getItems().add(l1);
+        Link l2=new Link(Link.Type.Усилитель,10);
+        mainModel.addLink(l2);
+        linksListView.getItems().add(l2);
+        ////
 
         addLinkButton.setOnAction(new AddingLink());
         deleteLinkButton.setOnAction(new DeletingLink());
-        editLinkButton.setOnAction(new EditingAddingLink());
+        editLinkButton.setOnAction(new EditingLink());
         linksListView.getSelectionModel().selectedIndexProperty().addListener(new ChoiceLinkOnView());
     }
     public class AddingLink implements EventHandler<ActionEvent>{
@@ -115,10 +127,10 @@ public class MainController extends Application implements Initializable {
 
         @Override
         public void handle(ActionEvent event) {
-
+            mainModel.deleteLink(linksListView.getItems(),numberSelectedLink);
         }
     }
-    public class EditingAddingLink implements EventHandler<ActionEvent>{
+    public class EditingLink implements EventHandler<ActionEvent>{
 
         @Override
         public void handle(ActionEvent event) {
@@ -129,7 +141,7 @@ public class MainController extends Application implements Initializable {
 
         @Override
         public void changed(ObservableValue<? extends Link> observable, Link oldValue, Link newValue) {
-
+            numberSelectedLink=linksListView.getSelectionModel().getSelectedIndex();
         }
     }
 }
