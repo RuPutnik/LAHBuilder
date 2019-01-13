@@ -8,7 +8,9 @@ public abstract class Link {
     protected double valueKsi;//for oscillatory
     protected double valueK=1;
 
-    public abstract String getNameLink();
+    public static String getNameLink(){
+        return "";
+    }
 
     public abstract double getValueT();
 

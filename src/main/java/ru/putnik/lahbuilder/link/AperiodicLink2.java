@@ -13,8 +13,7 @@ public class AperiodicLink2 extends Link {
         valueT=t;
         valueKsi=t2ksi/(2*t);
     }
-    @Override
-    public String getNameLink() {
+    public static String getNameLink() {
         return "Апериодическое звено 2-го порядка";
     }
 

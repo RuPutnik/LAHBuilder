@@ -8,8 +8,8 @@ public class IntegratingLink extends Link{
         valueK=k;
     }
     public IntegratingLink(){}
-    @Override
-    public String getNameLink() {
+
+    public static String getNameLink() {
         return "Интегрирующее звено";
     }
 

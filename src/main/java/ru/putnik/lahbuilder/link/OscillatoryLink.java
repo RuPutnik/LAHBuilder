@@ -14,8 +14,7 @@ public class OscillatoryLink extends Link{
         valueKsi=t2ksi/(2*t);
     }
 
-    @Override
-    public String getNameLink() {
+    public static String getNameLink() {
         return "Колебательное звено";
     }
 

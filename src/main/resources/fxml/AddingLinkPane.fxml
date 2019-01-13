@@ -16,7 +16,7 @@
     <HBox alignment="CENTER" spacing="10">
       <children>
          <Label text="Тип звена" />
-         <ComboBox prefWidth="150.0" />
+         <ComboBox prefWidth="250.0" fx:id="listLinksComboBox"/>
       </children></HBox>
    <GridPane alignment="CENTER" prefHeight="90.0" prefWidth="523.0">
      <columnConstraints>
@@ -33,18 +33,18 @@
        </padding>
       <children>
          <Label text="Значение коэффициента усиления k" />
-         <TextField prefHeight="25.0" prefWidth="205.0" GridPane.columnIndex="1" />
-         <Label text="Значение постоянной времени T" GridPane.rowIndex="1" />
-         <TextField GridPane.columnIndex="1" GridPane.rowIndex="1" />
+         <TextField prefHeight="25.0" prefWidth="205.0" GridPane.columnIndex="1" fx:id="valueKTextField"/>
+         <Label text="Значение постоянной времени T" GridPane.rowIndex="1"/>
+         <TextField GridPane.columnIndex="1" GridPane.rowIndex="1"  fx:id="valueTTextField"/>
          <Label text="Значение 2*ξT" GridPane.rowIndex="2" />
-         <TextField GridPane.columnIndex="1" GridPane.rowIndex="2" />
+         <TextField GridPane.columnIndex="1" GridPane.rowIndex="2"  fx:id="value2TKsiTextField"/>
       </children>
    </GridPane>
    <HBox alignment="CENTER" prefWidth="200.0" spacing="10">
       <children>
-         <Button mnemonicParsing="false" text="Добавить" />
-         <Button mnemonicParsing="false" text="Добавить и выйти" />
-         <Button mnemonicParsing="false" text="Выйти" />
+         <Button mnemonicParsing="false" text="Добавить" fx:id="addLinkButton"/>
+         <Button mnemonicParsing="false" text="Добавить и выйти" fx:id="addLinkAndExitButton"/>
+         <Button mnemonicParsing="false" text="Выйти" fx:id="exitButton"/>
       </children>
    </HBox>
 </VBox>

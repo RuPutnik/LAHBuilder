@@ -11,8 +11,7 @@ public class AperiodicLink1 extends Link{
     public AperiodicLink1(double t){
         valueT=t;
     }
-    @Override
-    public String getNameLink() {
+    public static String getNameLink() {
         return "Апериодическое звено 1-го порядка";
     }
 

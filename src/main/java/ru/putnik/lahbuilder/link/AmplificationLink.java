@@ -10,8 +10,7 @@ public class AmplificationLink extends Link {
     }
 
 
-    @Override
-    public String getNameLink() {
+    public static String getNameLink() {
         return "Усилительное звено";
     }
 

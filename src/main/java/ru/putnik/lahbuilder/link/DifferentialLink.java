@@ -11,8 +11,7 @@ public class DifferentialLink extends Link {
     public DifferentialLink(double t){
         valueT=t;
     }
-    @Override
-    public String getNameLink() {
+    public static String getNameLink() {
         return "Дифференцирующее звено";
     }
 
