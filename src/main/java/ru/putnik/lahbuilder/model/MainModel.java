@@ -1,7 +1,7 @@
 package ru.putnik.lahbuilder.model;
 
 import javafx.collections.ObservableList;
-import ru.putnik.lahbuilder.Link;
+import ru.putnik.lahbuilder.link.Link;
 
 import java.util.ArrayList;
 
@@ -12,7 +12,6 @@ public class MainModel {
     private ArrayList<Link> listLinks=new ArrayList<>();
 
     public void deleteLink(ObservableList<Link> list,int numberElement){
-        System.out.println("num = "+numberElement);
         if(list!=null&&!list.isEmpty()){
             list.remove(numberElement);
         }

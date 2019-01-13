@@ -18,8 +18,9 @@ import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
-import javafx.util.Callback;
-import ru.putnik.lahbuilder.Link;
+import ru.putnik.lahbuilder.link.AmplificationLink;
+import ru.putnik.lahbuilder.link.AperiodicLink1;
+import ru.putnik.lahbuilder.link.Link;
 import ru.putnik.lahbuilder.axis.LogarithmicNumberAxis;
 import ru.putnik.lahbuilder.model.MainModel;
 
@@ -52,6 +53,7 @@ public class MainController extends Application implements Initializable {
     //XYChart.Series<Integer,Integer> ser1=new XYChart.Series<>();
 
     private int numberSelectedLink=0;
+    private boolean autoRanging=false;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -62,15 +64,14 @@ public class MainController extends Application implements Initializable {
         primaryStage.setHeight(500);
         primaryStage.setResizable(false);
         primaryStage.show();
-
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         chart.setCreateSymbols(false);
         chart.setLegendVisible(false);
-        yAxis.setAutoRanging(false);
-        xAxis.setAutoRanging(false);
+        yAxis.setAutoRanging(autoRanging);
+        xAxis.setAutoRanging(autoRanging);
 
         yAxis.setUpperBound(60);
         yAxis.setLowerBound(-60);
@@ -84,29 +85,33 @@ public class MainController extends Application implements Initializable {
 
         //chart.getData().add(ser1);
 
-        linksListView.setCellFactory(param -> {
+        linksListView.setCellFactory(param -> new ListCell<Link>(){
+            @Override
+            protected void updateItem(Link item, boolean empty) {
+                super.updateItem(item, empty);
+                if(item!=null) {
+                    String text=item.getNameLink();
 
-            ListCell<Link> listCell=new ListCell<Link>(){
-                @Override
-                protected void updateItem(Link item, boolean empty) {
-                    super.updateItem(item, empty);
-                    if(item!=null) {
-                        setText(item.getNameLink());
+                    if(item.getValueT()!=0){
+                        text=text+" T = "+item.getValueT();
                     }
-                    if(empty){
-                        setText(null);
-                        setGraphic(null);
+                    if(item.getValueK()!=1){
+                        text=text+" K = "+item.getValueK();
                     }
+                    setText(text);
                 }
-            };
-            return listCell;
+                if(empty){
+                    setText(null);
+                    setGraphic(null);
+                }
+            }
         });
 
         ////Testing code
-        Link l1=new Link(Link.Type.Апериодическое1,3);
+        Link l1=new AperiodicLink1(3);
         mainModel.addLink(l1);
         linksListView.getItems().add(l1);
-        Link l2=new Link(Link.Type.Усилитель,10);
+        Link l2=new AmplificationLink(10);
         mainModel.addLink(l2);
         linksListView.getItems().add(l2);
         ////
@@ -114,7 +119,7 @@ public class MainController extends Application implements Initializable {
         addLinkButton.setOnAction(new AddingLink());
         deleteLinkButton.setOnAction(new DeletingLink());
         editLinkButton.setOnAction(new EditingLink());
-        linksListView.getSelectionModel().selectedIndexProperty().addListener(new ChoiceLinkOnView());
+        linksListView.getSelectionModel().selectedIndexProperty().addListener(new ChoiceLinkOnView<>());
     }
     public class AddingLink implements EventHandler<ActionEvent>{
 
