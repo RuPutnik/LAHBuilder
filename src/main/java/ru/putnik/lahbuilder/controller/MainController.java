@@ -18,6 +18,7 @@ import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import ru.putnik.lahbuilder.link.AmplificationLink;
 import ru.putnik.lahbuilder.link.AperiodicLink1;
 import ru.putnik.lahbuilder.link.Link;
@@ -33,6 +34,7 @@ import java.util.ResourceBundle;
  */
 public class MainController extends Application implements Initializable {
     private MainModel mainModel=new MainModel();
+    private AddingLinkController addingLinkController=new AddingLinkController();
     @FXML
     private LineChart<Integer,Integer> chart;
     @FXML
@@ -54,16 +56,20 @@ public class MainController extends Application implements Initializable {
 
     private int numberSelectedLink=0;
     private boolean autoRanging=false;
+    private static Stage primaryStage;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Parent parent=FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("MainPaneBuilder.fxml")));
+        MainController.primaryStage=primaryStage;
+        Parent parent=FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("fxml/MainPaneBuilder.fxml")));
         primaryStage.setScene(new Scene(parent));
 
         primaryStage.setWidth(915);
         primaryStage.setHeight(500);
         primaryStage.setResizable(false);
         primaryStage.show();
+
+
     }
 
     @Override
@@ -120,12 +126,14 @@ public class MainController extends Application implements Initializable {
         deleteLinkButton.setOnAction(new DeletingLink());
         editLinkButton.setOnAction(new EditingLink());
         linksListView.getSelectionModel().selectedIndexProperty().addListener(new ChoiceLinkOnView<>());
+        primaryStage.setOnCloseRequest(new CloseMainWindow());
+
     }
     public class AddingLink implements EventHandler<ActionEvent>{
 
         @Override
         public void handle(ActionEvent event) {
-
+            addingLinkController.createWindow(new Stage(),400,300);
         }
     }
     public class DeletingLink implements EventHandler<ActionEvent>{
@@ -147,6 +155,13 @@ public class MainController extends Application implements Initializable {
         @Override
         public void changed(ObservableValue<? extends Link> observable, Link oldValue, Link newValue) {
             numberSelectedLink=linksListView.getSelectionModel().getSelectedIndex();
+        }
+    }
+    public class CloseMainWindow implements EventHandler<WindowEvent>{
+
+        @Override
+        public void handle(WindowEvent event) {
+            System.exit(0);
         }
     }
 }
