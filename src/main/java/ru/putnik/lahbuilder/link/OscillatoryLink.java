@@ -6,15 +6,16 @@ package ru.putnik.lahbuilder.link;
 public class OscillatoryLink extends Link{
     public OscillatoryLink(double t, double t2ksi, double k){
         valueT=t;
-        valueKsi=t2ksi/(2*t);
+        valueT2Ksi=t2ksi;
         valueK=k;
     }
     public OscillatoryLink(double t, double t2ksi){
         valueT=t;
-        valueKsi=t2ksi/(2*t);
+        valueT2Ksi=t2ksi;
     }
-
-    public static String getNameLink() {
+    public OscillatoryLink(){}
+    @Override
+    public String getNameLink() {
         return "Колебательное звено";
     }
 
@@ -24,8 +25,8 @@ public class OscillatoryLink extends Link{
     }
 
     @Override
-    public double getValueKsi() {
-        return valueKsi;
+    public double getValueT2Ksi() {
+        return valueT2Ksi;
     }
 
     @Override

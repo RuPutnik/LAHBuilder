@@ -4,13 +4,13 @@ package ru.putnik.lahbuilder.link;
  * Создано 13.01.2019 в 16:15
  */
 public class AmplificationLink extends Link {
-    private double valueK;
     public AmplificationLink(double k){
         valueK=k;
     }
+    public AmplificationLink(){}
 
-
-    public static String getNameLink() {
+    @Override
+    public String getNameLink() {
         return "Усилительное звено";
     }
 
@@ -25,7 +25,7 @@ public class AmplificationLink extends Link {
     }
 
     @Override
-    public double getValueKsi() {
+    public double getValueT2Ksi() {
         return 0;
     }
 }

@@ -5,16 +5,33 @@ package ru.putnik.lahbuilder.link;
  */
 public abstract class Link {
     protected double valueT;
-    protected double valueKsi;//for oscillatory
+    protected double valueT2Ksi;//for oscillatory
     protected double valueK=1;
 
-    public static String getNameLink(){
-        return "";
-    }
+    public Link(){}
+
+    public abstract String getNameLink();
 
     public abstract double getValueT();
 
-    public abstract double getValueKsi();
+    public abstract double getValueT2Ksi();
 
     public abstract double getValueK();
+
+    public void setValueT(double valueT) {
+        this.valueT = valueT;
+    }
+
+    public void setValueT2Ksi(double valueT2Ksi) {
+        this.valueT2Ksi = valueT2Ksi;
+    }
+
+    public void setValueK(double valueK) {
+        this.valueK = valueK;
+    }
+
+    @Override
+    public String toString() {
+        return getNameLink();
+    }
 }

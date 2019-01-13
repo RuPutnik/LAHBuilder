@@ -11,7 +11,9 @@ public class AperiodicLink1 extends Link{
     public AperiodicLink1(double t){
         valueT=t;
     }
-    public static String getNameLink() {
+    public AperiodicLink1(){}
+    @Override
+    public String getNameLink() {
         return "Апериодическое звено 1-го порядка";
     }
 
@@ -21,7 +23,7 @@ public class AperiodicLink1 extends Link{
     }
 
     @Override
-    public double getValueKsi() {
+    public double getValueT2Ksi() {
         return 0;
     }
 

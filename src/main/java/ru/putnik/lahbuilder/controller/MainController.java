@@ -26,6 +26,7 @@ import ru.putnik.lahbuilder.axis.LogarithmicNumberAxis;
 import ru.putnik.lahbuilder.model.MainModel;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
@@ -34,7 +35,7 @@ import java.util.ResourceBundle;
  */
 public class MainController extends Application implements Initializable {
     private MainModel mainModel=new MainModel();
-    private AddingLinkController addingLinkController=new AddingLinkController();
+
     @FXML
     private LineChart<Integer,Integer> chart;
     @FXML
@@ -51,7 +52,7 @@ public class MainController extends Application implements Initializable {
     private Button deleteLinkButton;
     @FXML
     private Button editLinkButton;
-
+    private AddingLinkController addingLinkController;
     //XYChart.Series<Integer,Integer> ser1=new XYChart.Series<>();
 
     private int numberSelectedLink=0;
@@ -74,6 +75,7 @@ public class MainController extends Application implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
         chart.setCreateSymbols(false);
         chart.setLegendVisible(false);
         yAxis.setAutoRanging(autoRanging);
@@ -114,12 +116,12 @@ public class MainController extends Application implements Initializable {
         });
 
         ////Testing code
-        Link l1=new AperiodicLink1(3);
-        mainModel.addLink(l1);
-        linksListView.getItems().add(l1);
-        Link l2=new AmplificationLink(10);
-        mainModel.addLink(l2);
-        linksListView.getItems().add(l2);
+//        Link l1=new AperiodicLink1(3);
+//        mainModel.addLink(l1);
+//        linksListView.getItems().add(l1);
+//        Link l2=new AmplificationLink(10);
+//        mainModel.addLink(l2);
+//        linksListView.getItems().add(l2);
         ////
 
         addLinkButton.setOnAction(new AddingLink());
@@ -127,6 +129,8 @@ public class MainController extends Application implements Initializable {
         editLinkButton.setOnAction(new EditingLink());
         linksListView.getSelectionModel().selectedIndexProperty().addListener(new ChoiceLinkOnView<>());
         primaryStage.setOnCloseRequest(new CloseMainWindow());
+
+        addingLinkController=new AddingLinkController(linksListView,tfLabel);
 
     }
     public class AddingLink implements EventHandler<ActionEvent>{

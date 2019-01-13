@@ -11,7 +11,9 @@ public class DifferentialLink extends Link {
     public DifferentialLink(double t){
         valueT=t;
     }
-    public static String getNameLink() {
+    public DifferentialLink(){}
+    @Override
+    public String getNameLink() {
         return "Дифференцирующее звено";
     }
 
@@ -21,7 +23,7 @@ public class DifferentialLink extends Link {
     }
 
     @Override
-    public double getValueKsi() {
+    public double getValueT2Ksi() {
         return 0;
     }
 

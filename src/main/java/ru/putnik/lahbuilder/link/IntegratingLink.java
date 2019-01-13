@@ -9,7 +9,8 @@ public class IntegratingLink extends Link{
     }
     public IntegratingLink(){}
 
-    public static String getNameLink() {
+    @Override
+    public String getNameLink() {
         return "Интегрирующее звено";
     }
 
@@ -19,7 +20,7 @@ public class IntegratingLink extends Link{
     }
 
     @Override
-    public double getValueKsi() {
+    public double getValueT2Ksi() {
         return 0;
     }
 

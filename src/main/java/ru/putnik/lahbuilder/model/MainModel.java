@@ -9,7 +9,7 @@ import java.util.ArrayList;
  * Создано 08.01.2019 в 1:17
  */
 public class MainModel {
-    private ArrayList<Link> listLinks=new ArrayList<>();
+    private static ArrayList<Link> listLinks=new ArrayList<>();
 
     public void deleteLink(ObservableList<Link> list,int numberElement){
         if(list!=null&&!list.isEmpty()){
@@ -20,10 +20,14 @@ public class MainModel {
         }
     }
 
-    public ArrayList<Link> getListLinks() {
+
+
+    public static ArrayList<Link> getListLinks() {
         return listLinks;
     }
-    public void addLink(Link link){
+    public static void addLink(Link link){
         listLinks.add(link);
     }
+
+
 }

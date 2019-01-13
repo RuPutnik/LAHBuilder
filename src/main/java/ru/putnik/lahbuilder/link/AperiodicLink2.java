@@ -6,14 +6,16 @@ package ru.putnik.lahbuilder.link;
 public class AperiodicLink2 extends Link {
     public AperiodicLink2(double t,double t2ksi,double k){
         valueT=t;
-        valueKsi=t2ksi/(2*t);
+        valueT2Ksi=t2ksi;
         valueK=k;
     }
     public AperiodicLink2(double t,double t2ksi){
         valueT=t;
-        valueKsi=t2ksi/(2*t);
+        valueT2Ksi=t2ksi;
     }
-    public static String getNameLink() {
+    public AperiodicLink2(){}
+    @Override
+    public String getNameLink() {
         return "Апериодическое звено 2-го порядка";
     }
 
@@ -23,8 +25,8 @@ public class AperiodicLink2 extends Link {
     }
 
     @Override
-    public double getValueKsi() {
-        return valueKsi;
+    public double getValueT2Ksi() {
+        return valueT2Ksi;
     }
 
     @Override

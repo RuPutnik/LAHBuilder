@@ -8,15 +8,15 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
-import ru.putnik.lahbuilder.link.Link;
+import ru.putnik.lahbuilder.link.*;
 import ru.putnik.lahbuilder.model.AddingLinkModel;
+import ru.putnik.lahbuilder.model.MainModel;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
@@ -25,9 +25,16 @@ import java.util.ResourceBundle;
  */
 public class AddingLinkController extends Application implements Initializable {
     private AddingLinkModel linkModel=new AddingLinkModel();
+    private static Label tfLabel;
+    private static ListView<Link> list;
+    public AddingLinkController(){}
+    public AddingLinkController(ListView<Link> list,Label tfLabel){
+        this.tfLabel=tfLabel;
+        this.list=list;
+    }
 
     @FXML
-    private ComboBox<String> listLinksComboBox;
+    private ComboBox<Link> listLinksComboBox;
     @FXML
     private TextField valueKTextField;
     @FXML
@@ -42,6 +49,7 @@ public class AddingLinkController extends Application implements Initializable {
     private Button exitButton;
 
     private static Stage primaryStage;
+    private Link choiceLink;
 
     @Override
     public void start(Stage primaryStage){}
@@ -69,21 +77,35 @@ public class AddingLinkController extends Application implements Initializable {
         valueKTextField.setEditable(false);
         valueTTextField.setEditable(false);
         value2TKsiTextField.setEditable(false);
-        listLinksComboBox.setItems(linkModel.getListNamesLinks());
+        listLinksComboBox.setItems(linkModel.getListLinks());
         listLinksComboBox.setOnAction(new ChoiceTypeLink());
         addLinkAndExitButton.setOnAction(new AddLinkAndExit());
         addLinkButton.setOnAction(new AddLink());
         exitButton.setOnAction(new Exit());
-
+        listLinksComboBox.setCellFactory(callback -> new ListCell<Link>() {
+            @Override
+            protected void updateItem(Link item, boolean empty) {
+                super.updateItem(item, empty);
+                if (item != null) {
+                    String text = item.getNameLink();
+                    setText(text);
+                }
+                if (empty) {
+                    setText(null);
+                    setGraphic(null);
+                }
+            }
+        });
     }
     public class ChoiceTypeLink implements EventHandler<ActionEvent>{
         @Override
         public void handle(ActionEvent event) {
-            String nameLink=listLinksComboBox.getValue();
+            Link link=listLinksComboBox.getValue();
+            choiceLink=link;
             valueKTextField.setText("");
             valueTTextField.setText("");
             value2TKsiTextField.setText("");
-            switch (nameLink){
+            switch (link.getNameLink()){
                 case "Апериодическое звено 1-го порядка":{
                      valueKTextField.setEditable(true);
                      valueTTextField.setEditable(true);
@@ -127,15 +149,38 @@ public class AddingLinkController extends Application implements Initializable {
 
         @Override
         public void handle(ActionEvent event) {
+            if(checkParametersLink(choiceLink,valueKTextField.getText(),valueTTextField.getText(),value2TKsiTextField.getText())){
+                linkModel.setTransferFunction(linkModel.formationTransferFunction(linkModel.getTransferFunction(),choiceLink));
+               // tfLabel.setText("W(s) = "+linkModel.getTransferFunction());
+                MainModel.addLink(choiceLink);
+                list.getItems().add(choiceLink);
+                primaryStage.close();
+            }else {
+                Alert alert=new Alert(Alert.AlertType.ERROR);
+                alert.setContentText("При добавлении нового звена возникла ошибка");
+                alert.setHeaderText("Выбранное звено не может существовать с заданными параметрами!");
+                alert.setTitle("Ошибка добавления звена");
+                alert.show();
+            }
 
-            primaryStage.close();
         }
     }
     public class AddLink implements EventHandler<ActionEvent>{
 
         @Override
         public void handle(ActionEvent event) {
-
+            if(checkParametersLink(choiceLink,valueKTextField.getText(),valueTTextField.getText(),value2TKsiTextField.getText())){
+                linkModel.setTransferFunction(linkModel.formationTransferFunction(linkModel.getTransferFunction(),choiceLink));
+              //  tfLabel.setText("W(s) = "+linkModel.getTransferFunction());
+                MainModel.addLink(choiceLink);
+                list.getItems().add(choiceLink);
+            }else {
+                Alert alert=new Alert(Alert.AlertType.ERROR);
+                alert.setContentText("При добавлении нового звена возникла ошибка");
+                alert.setHeaderText("Выбранное звено не может существовать с заданными параметрами! ");
+                alert.setTitle("Ошибка добавления звена");
+                alert.show();
+            }
         }
     }
     public class Exit implements EventHandler<ActionEvent>{
@@ -144,5 +189,64 @@ public class AddingLinkController extends Application implements Initializable {
         public void handle(ActionEvent event) {
             primaryStage.close();
         }
+    }
+    public boolean checkParametersLink(Link link,String kS,String tS,String t2ksiS){
+        double k=0,t=0,t2ksi=0;
+        if(tS.equals("")) tS="0";
+        if(t2ksiS.equals("")) t2ksiS="0";
+        if(kS.equals("")) kS="0";
+
+        try {
+            k = Double.parseDouble(kS);
+            t = Double.parseDouble(tS);
+            t2ksi = Double.parseDouble(t2ksiS);
+        }catch (NumberFormatException e){
+            Alert alert=new Alert(Alert.AlertType.ERROR);
+            alert.setContentText("При добавлении нового звена возникла ошибка");
+            alert.setHeaderText("Параметры звенадолжны задаваться числом!");
+            alert.setTitle("Ошибка добавления звена");
+            alert.show();
+        }
+        choiceLink.setValueK(k);
+        choiceLink.setValueT(t);
+        choiceLink.setValueT2Ksi(t2ksi);
+
+        System.out.println(k);
+        System.out.println(choiceLink.getValueK());
+
+        if(k==0) return false;
+        if(k<0||t<0||t2ksi<0) return false;
+
+        if(link instanceof AmplificationLink){
+
+            return true;
+        }else if(link instanceof AperiodicLink1){
+            return t != 0;
+        }else if(link instanceof AperiodicLink2){
+            if(t!=0&&t2ksi!=0){
+                if(t2ksi/(t*2)>1){
+                    return true;
+                }else {
+                    return false;
+                }
+            }else {
+                return false;
+            }
+        }else if(link instanceof DifferentialLink){
+            return t != 0;
+        }else if(link instanceof IntegratingLink){
+            return true;
+        }else if(link instanceof OscillatoryLink){
+            if(t!=0&&t2ksi!=0){
+                if(t2ksi/(t*2)<1){
+                    return true;
+                }else {
+                    return false;
+                }
+            }else {
+                return false;
+            }
+        }else
+            return false;
     }
 }
