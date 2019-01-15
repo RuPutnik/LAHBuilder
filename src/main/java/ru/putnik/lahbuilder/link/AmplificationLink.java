@@ -3,7 +3,7 @@ package ru.putnik.lahbuilder.link;
 /**
  * Создано 13.01.2019 в 16:15
  */
-public class AmplificationLink extends Link {
+public class AmplificationLink extends Link{
     public AmplificationLink(double k){
         valueK=k;
     }
@@ -28,4 +28,6 @@ public class AmplificationLink extends Link {
     public double getValueT2Ksi() {
         return 0;
     }
+
+
 }

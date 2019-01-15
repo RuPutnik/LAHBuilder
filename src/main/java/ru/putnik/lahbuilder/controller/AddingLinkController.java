@@ -16,7 +16,6 @@ import ru.putnik.lahbuilder.model.MainModel;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
@@ -25,12 +24,12 @@ import java.util.ResourceBundle;
  */
 public class AddingLinkController extends Application implements Initializable {
     private AddingLinkModel linkModel=new AddingLinkModel();
-    private static Label tfLabel;
+    private static TextField tfLabel;
     private static ListView<Link> list;
     public AddingLinkController(){}
-    public AddingLinkController(ListView<Link> list,Label tfLabel){
-        this.tfLabel=tfLabel;
-        this.list=list;
+    AddingLinkController(ListView<Link> list, TextField tfLabel){
+        AddingLinkController.tfLabel=tfLabel;
+        AddingLinkController.list=list;
     }
 
     @FXML
@@ -132,6 +131,12 @@ public class AddingLinkController extends Application implements Initializable {
                 }
                 case "Дифференцирующее звено":{
                     valueKTextField.setEditable(true);
+                    valueTTextField.setEditable(false);
+                    value2TKsiTextField.setEditable(false);
+                    break;
+                }
+                case "Дифференцирующее звено 1-го порядка":{
+                    valueKTextField.setEditable(true);
                     valueTTextField.setEditable(true);
                     value2TKsiTextField.setEditable(false);
                     break;
@@ -149,11 +154,12 @@ public class AddingLinkController extends Application implements Initializable {
 
         @Override
         public void handle(ActionEvent event) {
+            choiceLink=choiceLink.clone();
             if(checkParametersLink(choiceLink,valueKTextField.getText(),valueTTextField.getText(),value2TKsiTextField.getText())){
-                linkModel.setTransferFunction(linkModel.formationTransferFunction(linkModel.getTransferFunction(),choiceLink));
-               // tfLabel.setText("W(s) = "+linkModel.getTransferFunction());
-                MainModel.addLink(choiceLink);
                 list.getItems().add(choiceLink);
+                MainModel.addLink(choiceLink);
+                linkModel.setTransferFunction(linkModel.formationFunction(list.getItems()));
+                tfLabel.setText("W(s) = "+linkModel.getTransferFunction());
                 primaryStage.close();
             }else {
                 Alert alert=new Alert(Alert.AlertType.ERROR);
@@ -169,11 +175,12 @@ public class AddingLinkController extends Application implements Initializable {
 
         @Override
         public void handle(ActionEvent event) {
+            choiceLink=choiceLink.clone();
             if(checkParametersLink(choiceLink,valueKTextField.getText(),valueTTextField.getText(),value2TKsiTextField.getText())){
-                linkModel.setTransferFunction(linkModel.formationTransferFunction(linkModel.getTransferFunction(),choiceLink));
-              //  tfLabel.setText("W(s) = "+linkModel.getTransferFunction());
                 MainModel.addLink(choiceLink);
                 list.getItems().add(choiceLink);
+                linkModel.setTransferFunction(linkModel.formationFunction(list.getItems()));
+                tfLabel.setText("W(s) = "+linkModel.getTransferFunction());
             }else {
                 Alert alert=new Alert(Alert.AlertType.ERROR);
                 alert.setContentText("При добавлении нового звена возникла ошибка");
@@ -211,42 +218,36 @@ public class AddingLinkController extends Application implements Initializable {
         choiceLink.setValueT(t);
         choiceLink.setValueT2Ksi(t2ksi);
 
-        System.out.println(k);
-        System.out.println(choiceLink.getValueK());
-
         if(k==0) return false;
         if(k<0||t<0||t2ksi<0) return false;
 
         if(link instanceof AmplificationLink){
-
             return true;
         }else if(link instanceof AperiodicLink1){
             return t != 0;
-        }else if(link instanceof AperiodicLink2){
-            if(t!=0&&t2ksi!=0){
-                if(t2ksi/(t*2)>1){
-                    return true;
-                }else {
-                    return false;
-                }
-            }else {
+        }else if(link instanceof AperiodicLink2) {
+            if (t != 0 && t2ksi != 0) {
+                return t2ksi / (t * 2) > 1;
+            } else {
                 return false;
             }
-        }else if(link instanceof DifferentialLink){
+        }else if(link instanceof DifferentialLink) {
+            return true;
+        }else if(link instanceof DifferentialLink1){
             return t != 0;
         }else if(link instanceof IntegratingLink){
             return true;
         }else if(link instanceof OscillatoryLink){
             if(t!=0&&t2ksi!=0){
-                if(t2ksi/(t*2)<1){
-                    return true;
-                }else {
-                    return false;
-                }
+                return t2ksi / (t * 2) < 1;
             }else {
                 return false;
             }
         }else
             return false;
+    }
+
+    AddingLinkModel getLinkModel() {
+        return linkModel;
     }
 }

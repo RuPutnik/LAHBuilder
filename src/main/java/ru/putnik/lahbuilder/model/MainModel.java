@@ -1,6 +1,7 @@
 package ru.putnik.lahbuilder.model;
 
 import javafx.collections.ObservableList;
+import javafx.scene.chart.LineChart;
 import ru.putnik.lahbuilder.link.Link;
 
 import java.util.ArrayList;
@@ -19,7 +20,9 @@ public class MainModel {
             listLinks.remove(numberElement);
         }
     }
+    public void buildLAH(LineChart<Double,Double> lineChart){
 
+    }
 
 
     public static ArrayList<Link> getListLinks() {

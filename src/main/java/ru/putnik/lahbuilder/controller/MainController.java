@@ -12,21 +12,16 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListCell;
-import javafx.scene.control.ListView;
+import javafx.scene.control.*;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
-import ru.putnik.lahbuilder.link.AmplificationLink;
-import ru.putnik.lahbuilder.link.AperiodicLink1;
 import ru.putnik.lahbuilder.link.Link;
 import ru.putnik.lahbuilder.axis.LogarithmicNumberAxis;
+import ru.putnik.lahbuilder.model.AddingLinkModel;
 import ru.putnik.lahbuilder.model.MainModel;
 
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
@@ -37,13 +32,13 @@ public class MainController extends Application implements Initializable {
     private MainModel mainModel=new MainModel();
 
     @FXML
-    private LineChart<Integer,Integer> chart;
+    private LineChart<Double,Double> chart;
     @FXML
     private NumberAxis yAxis;
     @FXML
     private LogarithmicNumberAxis xAxis;
     @FXML
-    private Label tfLabel;
+    private TextField tfLabel;
     @FXML
     private ListView<Link> linksListView;
     @FXML
@@ -52,6 +47,8 @@ public class MainController extends Application implements Initializable {
     private Button deleteLinkButton;
     @FXML
     private Button editLinkButton;
+    @FXML
+    private Button buildLah;
     private AddingLinkController addingLinkController;
     //XYChart.Series<Integer,Integer> ser1=new XYChart.Series<>();
 
@@ -69,13 +66,12 @@ public class MainController extends Application implements Initializable {
         primaryStage.setHeight(500);
         primaryStage.setResizable(false);
         primaryStage.show();
-
-
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
+        tfLabel.setEditable(false);
+        tfLabel.setFocusTraversable(false);
         chart.setCreateSymbols(false);
         chart.setLegendVisible(false);
         yAxis.setAutoRanging(autoRanging);
@@ -115,18 +111,10 @@ public class MainController extends Application implements Initializable {
             }
         });
 
-        ////Testing code
-//        Link l1=new AperiodicLink1(3);
-//        mainModel.addLink(l1);
-//        linksListView.getItems().add(l1);
-//        Link l2=new AmplificationLink(10);
-//        mainModel.addLink(l2);
-//        linksListView.getItems().add(l2);
-        ////
-
         addLinkButton.setOnAction(new AddingLink());
         deleteLinkButton.setOnAction(new DeletingLink());
         editLinkButton.setOnAction(new EditingLink());
+        buildLah.setOnAction(new BuildingLah());
         linksListView.getSelectionModel().selectedIndexProperty().addListener(new ChoiceLinkOnView<>());
         primaryStage.setOnCloseRequest(new CloseMainWindow());
 
@@ -145,6 +133,9 @@ public class MainController extends Application implements Initializable {
         @Override
         public void handle(ActionEvent event) {
             mainModel.deleteLink(linksListView.getItems(),numberSelectedLink);
+            AddingLinkModel model=addingLinkController.getLinkModel();
+            model.setTransferFunction(model.formationFunction(linksListView.getItems()));
+            tfLabel.setText("W(s) = "+model.getTransferFunction());
         }
     }
     public class EditingLink implements EventHandler<ActionEvent>{
@@ -152,6 +143,13 @@ public class MainController extends Application implements Initializable {
         @Override
         public void handle(ActionEvent event) {
 
+        }
+    }
+    public class BuildingLah implements EventHandler<ActionEvent>{
+
+        @Override
+        public void handle(ActionEvent event) {
+            mainModel.buildLAH(chart);
         }
     }
     public class ChoiceLinkOnView<Link> implements ChangeListener<Link> {

@@ -1,15 +1,11 @@
 package ru.putnik.lahbuilder.link;
 
 /**
- * Создано 13.01.2019 в 16:13
+ * Создано 13.01.2019 в 22:14
  */
 public class DifferentialLink extends Link {
-    public DifferentialLink(double t, double k){
-        valueT=t;
+    public DifferentialLink(double k){
         valueK=k;
-    }
-    public DifferentialLink(double t){
-        valueT=t;
     }
     public DifferentialLink(){}
     @Override
@@ -19,7 +15,7 @@ public class DifferentialLink extends Link {
 
     @Override
     public double getValueT() {
-        return valueT;
+        return 0;
     }
 
     @Override

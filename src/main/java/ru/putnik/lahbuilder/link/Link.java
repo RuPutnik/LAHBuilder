@@ -3,7 +3,7 @@ package ru.putnik.lahbuilder.link;
 /**
  * Создано 06.01.2019 в 21:42
  */
-public abstract class Link {
+public abstract class Link implements Cloneable{
     protected double valueT;
     protected double valueT2Ksi;//for oscillatory
     protected double valueK=1;
@@ -28,6 +28,16 @@ public abstract class Link {
 
     public void setValueK(double valueK) {
         this.valueK = valueK;
+    }
+
+    @Override
+    public Link clone(){
+        try {
+            return (Link)super.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     @Override
