@@ -20,6 +20,11 @@ public class AmplificationLink extends Link{
     }
 
     @Override
+    public double getIncline() {
+        return 0;
+    }
+
+    @Override
     public double getValueT() {
         return 0;
     }

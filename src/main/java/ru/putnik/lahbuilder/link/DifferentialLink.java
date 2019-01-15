@@ -27,4 +27,9 @@ public class DifferentialLink extends Link {
     public double getValueK(){
         return valueK;
     }
+
+    @Override
+    public double getIncline() {
+        return 0;
+    }
 }

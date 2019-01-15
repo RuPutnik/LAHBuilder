@@ -7,6 +7,7 @@ public abstract class Link implements Cloneable{
     protected double valueT;
     protected double valueT2Ksi;//for oscillatory
     protected double valueK=1;
+    protected double incline;
 
     public Link(){}
 
@@ -17,6 +18,8 @@ public abstract class Link implements Cloneable{
     public abstract double getValueT2Ksi();
 
     public abstract double getValueK();
+
+    public abstract double getIncline();
 
     public void setValueT(double valueT) {
         this.valueT = valueT;

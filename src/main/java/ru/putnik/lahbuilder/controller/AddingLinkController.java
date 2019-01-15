@@ -62,7 +62,7 @@ public class AddingLinkController extends Application implements Initializable {
             e.printStackTrace();
         }
 
-        primaryStage.setScene(new Scene(parent));
+        primaryStage.setScene(new Scene(Objects.requireNonNull(parent)));
 
         primaryStage.setWidth(width);
         primaryStage.setHeight(height);
@@ -243,8 +243,9 @@ public class AddingLinkController extends Application implements Initializable {
             }else {
                 return false;
             }
-        }else
+        }else {
             return false;
+        }
     }
 
     AddingLinkModel getLinkModel() {

@@ -33,4 +33,9 @@ public class OscillatoryLink extends Link{
     public double getValueK(){
         return valueK;
     }
+
+    @Override
+    public double getIncline() {
+        return -40;
+    }
 }

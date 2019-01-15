@@ -50,9 +50,10 @@ public class MainController extends Application implements Initializable {
     @FXML
     private Button buildLah;
     private AddingLinkController addingLinkController;
+    private EditingLinkController editingLinkController;
     //XYChart.Series<Integer,Integer> ser1=new XYChart.Series<>();
 
-    private int numberSelectedLink=0;
+    private int numberSelectedLink=-1;
     private boolean autoRanging=false;
     private static Stage primaryStage;
 
@@ -102,6 +103,9 @@ public class MainController extends Application implements Initializable {
                     if(item.getValueK()!=1){
                         text=text+" K = "+item.getValueK();
                     }
+                    if(item.getValueT2Ksi()!=0){
+                        text=text+" ξ = "+item.getValueT2Ksi()/(2*item.getValueT());
+                    }
                     setText(text);
                 }
                 if(empty){
@@ -119,6 +123,7 @@ public class MainController extends Application implements Initializable {
         primaryStage.setOnCloseRequest(new CloseMainWindow());
 
         addingLinkController=new AddingLinkController(linksListView,tfLabel);
+
 
     }
     public class AddingLink implements EventHandler<ActionEvent>{
@@ -142,7 +147,16 @@ public class MainController extends Application implements Initializable {
 
         @Override
         public void handle(ActionEvent event) {
-
+            if(numberSelectedLink!=-1) {
+                editingLinkController=new EditingLinkController(linksListView.getItems().get(numberSelectedLink));
+                editingLinkController.createWindow(new Stage(), 650, 325);
+            }else {
+                Alert alert=new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Ошибка редактирования звена");
+                alert.setHeaderText("При попытке отредактировать звено возникла ошибка!");
+                alert.setContentText("Звено для редактирования не выбрано");
+                alert.show();
+            }
         }
     }
     public class BuildingLah implements EventHandler<ActionEvent>{

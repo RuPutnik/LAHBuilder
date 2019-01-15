@@ -9,7 +9,7 @@ import ru.putnik.lahbuilder.link.*;
  */
 public class AddingLinkModel {
     private String transferFunction="";
-    public ObservableList<Link> getListLinks(){
+    public static ObservableList<Link> getListLinks(){
         ObservableList<Link> list=FXCollections.observableArrayList();
         list.add(new AmplificationLink());
         list.add(new AperiodicLink1());

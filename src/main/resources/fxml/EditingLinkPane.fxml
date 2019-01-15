@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox alignment="CENTER" prefHeight="275.0" prefWidth="648.0" spacing="20" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.putnik.lahbuilder.controller.EditingLinkController">
+    <GridPane alignment="CENTER" prefHeight="189.0" prefWidth="600.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="350.0" minWidth="221.0" prefWidth="231.0" />
+            <ColumnConstraints fillWidth="false" hgrow="SOMETIMES" maxWidth="203.0" minWidth="10.0" prefWidth="149.0">
+            </ColumnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="228.0" minWidth="135.0" prefWidth="228.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+        <padding>
+          <Insets left="20" right="20" />
+        </padding>
+        <children>
+          <Label text="Старое значение" GridPane.columnIndex="1" />
+          <Label text="Новое значение" GridPane.columnIndex="2" />
+          <Label text="Значение коэффициента усиления k" GridPane.rowIndex="2" />
+          <TextField fx:id="valueKTextField" prefHeight="25.0" prefWidth="205.0" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+          <Label text="Значение постоянной времени T" GridPane.rowIndex="3" />
+          <TextField fx:id="valueTTextField" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+          <Label text="Значение 2*ξT" GridPane.rowIndex="4" />
+          <TextField fx:id="value2TKsiTextField" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+          <Label text="Старое значение K" fx:id="oldKLabel" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+          <Label text="Старое значение T" fx:id="oldTLabel" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+          <Label text="Старое значение 2TKsi" fx:id="old2TKsiLabel" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+          <Label text="Тип звена" GridPane.rowIndex="1" />
+          <ComboBox fx:id="listLinksComboBox" prefWidth="250.0" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+         <ScrollPane prefHeight="20.0" prefWidth="129.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+            <content>
+                <Label fx:id="oldLinkType" />
+            </content>
+         </ScrollPane>
+        </children>
+      <VBox.margin>
+         <Insets />
+      </VBox.margin>
+    </GridPane>
+    <HBox alignment="CENTER" prefWidth="200.0" spacing="10">
+        <children>
+          <Button fx:id="editLinkButton" mnemonicParsing="false" text="Изменить" />
+          <Button fx:id="cancelButton" mnemonicParsing="false" text="Отмена" />
+        </children>
+    </HBox>
+</VBox>
