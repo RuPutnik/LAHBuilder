@@ -56,6 +56,7 @@ public class MainController extends Application implements Initializable {
     private int numberSelectedLink=-1;
     private boolean autoRanging=false;
     private static Stage primaryStage;
+    private AddingLinkModel model;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -138,7 +139,7 @@ public class MainController extends Application implements Initializable {
         @Override
         public void handle(ActionEvent event) {
             mainModel.deleteLink(linksListView.getItems(),numberSelectedLink);
-            AddingLinkModel model=addingLinkController.getLinkModel();
+            model=addingLinkController.getLinkModel();
             model.setTransferFunction(model.formationFunction(linksListView.getItems()));
             tfLabel.setText("W(s) = "+model.getTransferFunction());
         }
@@ -148,8 +149,9 @@ public class MainController extends Application implements Initializable {
         @Override
         public void handle(ActionEvent event) {
             if(numberSelectedLink!=-1) {
-                editingLinkController=new EditingLinkController(linksListView.getItems().get(numberSelectedLink));
+                editingLinkController=new EditingLinkController(linksListView,tfLabel,numberSelectedLink);
                 editingLinkController.createWindow(new Stage(), 650, 325);
+
             }else {
                 Alert alert=new Alert(Alert.AlertType.WARNING);
                 alert.setTitle("Ошибка редактирования звена");

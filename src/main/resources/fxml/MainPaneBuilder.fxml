@@ -13,7 +13,7 @@
 <?import javafx.scene.text.Font?>
 <?import ru.putnik.lahbuilder.axis.LogarithmicNumberAxis?>
 
-<HBox prefHeight="458.0" prefWidth="904.0" xmlns="http://javafx.com/javafx/8.0.72" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.putnik.lahbuilder.controller.MainController">
+<HBox prefHeight="458.0" prefWidth="904.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.putnik.lahbuilder.controller.MainController">
    <children>
       <VBox alignment="CENTER" spacing="10">
          <VBox style=" -fx-border-color:lightgray; -fx-border-width: 1; -fx-border-style: solid; -fx-border-radius: 10;">
@@ -24,7 +24,7 @@
               </font>
            </TextField>
            <padding>
-               <Insets left="5" right="5" bottom="5"/>
+               <Insets bottom="5" left="5" right="5" />
            </padding>
          </VBox>
          <ListView fx:id="linksListView">

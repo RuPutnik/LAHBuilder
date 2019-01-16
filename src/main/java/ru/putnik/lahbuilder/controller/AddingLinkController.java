@@ -210,7 +210,7 @@ public class AddingLinkController extends Application implements Initializable {
         }catch (NumberFormatException e){
             Alert alert=new Alert(Alert.AlertType.ERROR);
             alert.setContentText("При добавлении нового звена возникла ошибка");
-            alert.setHeaderText("Параметры звенадолжны задаваться числом!");
+            alert.setHeaderText("Параметры звена должны задаваться числом!");
             alert.setTitle("Ошибка добавления звена");
             alert.show();
         }

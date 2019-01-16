@@ -22,7 +22,7 @@ public class AddingLinkModel {
         return list;
     }
 
-    public String formationFunction(ObservableList<Link> linksList) {
+    public static String formationFunction(ObservableList<Link> linksList) {
         StringBuilder finishFunction= new StringBuilder();
         String[] numerators;
         String[] denominators;
