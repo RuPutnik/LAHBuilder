@@ -154,37 +154,52 @@ public class AddingLinkController extends Application implements Initializable {
 
         @Override
         public void handle(ActionEvent event) {
-            choiceLink=choiceLink.clone();
-            if(checkParametersLink(choiceLink,valueKTextField.getText(),valueTTextField.getText(),value2TKsiTextField.getText())){
-                list.getItems().add(choiceLink);
-                MainModel.addLink(choiceLink);
-                linkModel.setTransferFunction(linkModel.formationFunction(list.getItems()));
-                tfLabel.setText("W(s) = "+linkModel.getTransferFunction());
-                primaryStage.close();
-            }else {
-                Alert alert=new Alert(Alert.AlertType.ERROR);
+            if(choiceLink!=null) {
+                choiceLink = choiceLink.clone();
+                if (checkParametersLink(choiceLink, valueKTextField.getText(), valueTTextField.getText(), value2TKsiTextField.getText())) {
+                    list.getItems().add(choiceLink);
+                    MainModel.addLink(choiceLink);
+                    linkModel.setTransferFunction(linkModel.formationFunction(list.getItems()));
+                    tfLabel.setText("W(s) = " + linkModel.getTransferFunction());
+                    primaryStage.close();
+                } else {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setContentText("При добавлении нового звена возникла ошибка");
+                    alert.setHeaderText("Выбранное звено не может существовать с заданными параметрами!");
+                    alert.setTitle("Ошибка добавления звена");
+                    alert.show();
+                }
+            }else{
+                Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setContentText("При добавлении нового звена возникла ошибка");
-                alert.setHeaderText("Выбранное звено не может существовать с заданными параметрами!");
+                alert.setHeaderText("Не выбран тип звена!");
                 alert.setTitle("Ошибка добавления звена");
                 alert.show();
             }
-
         }
     }
     public class AddLink implements EventHandler<ActionEvent>{
 
         @Override
         public void handle(ActionEvent event) {
-            choiceLink=choiceLink.clone();
-            if(checkParametersLink(choiceLink,valueKTextField.getText(),valueTTextField.getText(),value2TKsiTextField.getText())){
-                MainModel.addLink(choiceLink);
-                list.getItems().add(choiceLink);
-                linkModel.setTransferFunction(linkModel.formationFunction(list.getItems()));
-                tfLabel.setText("W(s) = "+linkModel.getTransferFunction());
-            }else {
-                Alert alert=new Alert(Alert.AlertType.ERROR);
+            if (choiceLink != null) {
+                choiceLink = choiceLink.clone();
+                if (checkParametersLink(choiceLink, valueKTextField.getText(), valueTTextField.getText(), value2TKsiTextField.getText())) {
+                    MainModel.addLink(choiceLink);
+                    list.getItems().add(choiceLink);
+                    linkModel.setTransferFunction(linkModel.formationFunction(list.getItems()));
+                    tfLabel.setText("W(s) = " + linkModel.getTransferFunction());
+                } else {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setContentText("При добавлении нового звена возникла ошибка");
+                    alert.setHeaderText("Выбранное звено не может существовать с заданными параметрами! ");
+                    alert.setTitle("Ошибка добавления звена");
+                    alert.show();
+                }
+            }else{
+                Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setContentText("При добавлении нового звена возникла ошибка");
-                alert.setHeaderText("Выбранное звено не может существовать с заданными параметрами! ");
+                alert.setHeaderText("Не выбран тип звена! ");
                 alert.setTitle("Ошибка добавления звена");
                 alert.show();
             }

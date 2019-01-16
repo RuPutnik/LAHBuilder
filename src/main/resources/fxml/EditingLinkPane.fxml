@@ -10,7 +10,8 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox alignment="CENTER" prefHeight="275.0" prefWidth="648.0" spacing="20" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.putnik.lahbuilder.controller.EditingLinkController">
+<VBox alignment="CENTER" prefHeight="275.0" prefWidth="648.0" spacing="20" xmlns="http://javafx.com/javafx/8.0.72"
+      xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.putnik.lahbuilder.controller.EditingLinkController">
    <HBox alignment="CENTER" prefHeight="69.0" prefWidth="648.0" spacing="10">
       <children>
           <Label text="Тип звена:" />

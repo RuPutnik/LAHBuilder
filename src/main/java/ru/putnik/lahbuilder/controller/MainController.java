@@ -56,7 +56,6 @@ public class MainController extends Application implements Initializable {
     private int numberSelectedLink=-1;
     private boolean autoRanging=false;
     private static Stage primaryStage;
-    private AddingLinkModel model;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -139,9 +138,9 @@ public class MainController extends Application implements Initializable {
         @Override
         public void handle(ActionEvent event) {
             mainModel.deleteLink(linksListView.getItems(),numberSelectedLink);
-            model=addingLinkController.getLinkModel();
-            model.setTransferFunction(model.formationFunction(linksListView.getItems()));
-            tfLabel.setText("W(s) = "+model.getTransferFunction());
+            AddingLinkModel model = addingLinkController.getLinkModel();
+            model.setTransferFunction(AddingLinkModel.formationFunction(linksListView.getItems()));
+            tfLabel.setText("W(s) = "+ model.getTransferFunction());
         }
     }
     public class EditingLink implements EventHandler<ActionEvent>{
