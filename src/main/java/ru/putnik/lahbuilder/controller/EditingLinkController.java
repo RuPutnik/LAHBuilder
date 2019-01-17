@@ -48,7 +48,7 @@ public class EditingLinkController extends Application implements Initializable 
     private static int numberEditLink;
 
     public EditingLinkController(){}
-    public EditingLinkController(ListView<Link> list, TextField tfLabel,int numberLink){
+    EditingLinkController(ListView<Link> list, TextField tfLabel, int numberLink){
         EditingLinkController.link=list.getItems().get(numberLink);
         EditingLinkController.tfLabel=tfLabel;
         EditingLinkController.list=list;
@@ -58,7 +58,7 @@ public class EditingLinkController extends Application implements Initializable 
     @Override
     public void start(Stage primaryStage) throws Exception {}
 
-    public void createWindow(Stage primaryStage, double width, double height){
+    void createWindow(Stage primaryStage, double width, double height){
         Parent parent= null;
         EditingLinkController.primaryStage=primaryStage;
         try {
@@ -120,7 +120,7 @@ public class EditingLinkController extends Application implements Initializable 
         }
     }
 
-    public boolean checkParametersLink(Link link,String kS,String tS,String t2ksiS){
+    private boolean checkParametersLink(Link link, String kS, String tS, String t2ksiS){
         double k=0,t=0,t2ksi=0;
         if(tS.equals("")) tS="0";
         if(t2ksiS.equals("")) t2ksiS="0";

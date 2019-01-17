@@ -2,7 +2,6 @@ package ru.putnik.lahbuilder.model;
 
 import javafx.collections.ObservableList;
 import javafx.scene.chart.LineChart;
-import javafx.scene.control.ListView;
 import ru.putnik.lahbuilder.link.AperiodicLink1;
 import ru.putnik.lahbuilder.link.AperiodicLink2;
 import ru.putnik.lahbuilder.link.Link;
@@ -26,7 +25,7 @@ public class MainModel {
             listLinks.remove(numberElement);
         }
     }
-    public ArrayList<Link> decompositionAperiodicLink2(ArrayList<Link> listLinks){
+    private ArrayList<Link> decompositionAperiodicLink2(ArrayList<Link> listLinks){
         for (int n=0;n<listLinks.size();n++){
             if(listLinks.get(n) instanceof AperiodicLink2){
                 Link l=listLinks.get(n);
@@ -65,26 +64,11 @@ public class MainModel {
     }
     public void buildLAH(LineChart<Double,Double> lineChart){
         ArrayList<Link> finalListLinks=new ArrayList<>(listLinks);
-        for(Link l:finalListLinks){
-            System.out.println(l.getNameLink());
-            System.out.println(l.getValueK());
-            System.out.println(l.getValueT());
-            System.out.println(l.getValueT2Ksi());
-        }
         finalListLinks=decompositionAperiodicLink2(finalListLinks);
-        System.out.println("-------------------------------");
-        for(Link l:finalListLinks){
-            System.out.println(l.getNameLink());
-            System.out.println(l.getValueK());
-            System.out.println(l.getValueT());
-            System.out.println(l.getValueT2Ksi());
-        }
-
-
+        //TO DO
     }
 
-
-    public static ArrayList<Link> getListLinks() {
+    static ArrayList<Link> getListLinks() {
         return listLinks;
     }
     public static void addLink(Link link){

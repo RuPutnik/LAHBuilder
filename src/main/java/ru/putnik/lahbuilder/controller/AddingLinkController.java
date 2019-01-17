@@ -53,7 +53,7 @@ public class AddingLinkController extends Application implements Initializable {
     @Override
     public void start(Stage primaryStage){}
 
-    public void createWindow(Stage primaryStage, double width, double height){
+    void createWindow(Stage primaryStage, double width, double height){
         Parent parent= null;
         AddingLinkController.primaryStage=primaryStage;
         try {
@@ -76,7 +76,7 @@ public class AddingLinkController extends Application implements Initializable {
         valueKTextField.setEditable(false);
         valueTTextField.setEditable(false);
         value2TKsiTextField.setEditable(false);
-        listLinksComboBox.setItems(linkModel.getListLinks());
+        listLinksComboBox.setItems(AddingLinkModel.getListLinks());
         listLinksComboBox.setOnAction(new ChoiceTypeLink());
         addLinkAndExitButton.setOnAction(new AddLinkAndExit());
         addLinkButton.setOnAction(new AddLink());
@@ -159,7 +159,7 @@ public class AddingLinkController extends Application implements Initializable {
                 if (checkParametersLink(choiceLink, valueKTextField.getText(), valueTTextField.getText(), value2TKsiTextField.getText())) {
                     list.getItems().add(choiceLink);
                     MainModel.addLink(choiceLink);
-                    linkModel.setTransferFunction(linkModel.formationFunction(list.getItems()));
+                    linkModel.setTransferFunction(AddingLinkModel.formationFunction(list.getItems()));
                     tfLabel.setText("W(s) = " + linkModel.getTransferFunction());
                     primaryStage.close();
                 } else {
@@ -187,7 +187,7 @@ public class AddingLinkController extends Application implements Initializable {
                 if (checkParametersLink(choiceLink, valueKTextField.getText(), valueTTextField.getText(), value2TKsiTextField.getText())) {
                     MainModel.addLink(choiceLink);
                     list.getItems().add(choiceLink);
-                    linkModel.setTransferFunction(linkModel.formationFunction(list.getItems()));
+                    linkModel.setTransferFunction(AddingLinkModel.formationFunction(list.getItems()));
                     tfLabel.setText("W(s) = " + linkModel.getTransferFunction());
                 } else {
                     Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -212,7 +212,7 @@ public class AddingLinkController extends Application implements Initializable {
             primaryStage.close();
         }
     }
-    public boolean checkParametersLink(Link link,String kS,String tS,String t2ksiS){
+    private boolean checkParametersLink(Link link, String kS, String tS, String t2ksiS){
         double k=0,t=0,t2ksi=0;
         if(tS.equals("")) tS="0";
         if(t2ksiS.equals("")) t2ksiS="0";

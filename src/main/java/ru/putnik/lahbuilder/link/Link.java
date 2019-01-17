@@ -5,7 +5,7 @@ package ru.putnik.lahbuilder.link;
  */
 public abstract class Link implements Cloneable{
     protected double valueT;
-    protected double valueT2Ksi;//for oscillatory
+    protected double valueT2Ksi;//for oscillatory and aperiodic-2
     protected double valueK=1;
     protected double incline;
 
