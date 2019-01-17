@@ -4,6 +4,9 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import ru.putnik.lahbuilder.link.*;
 
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
+
 /**
  * Создано 13.01.2019 в 16:49
  */
@@ -66,7 +69,12 @@ public class AddingLinkModel {
                 b++;
             }
             if (link instanceof AperiodicLink2 || link instanceof OscillatoryLink) {
-                denominators[b] = "(" + Math.pow(link.getValueT(), 2) + "s² + " + link.getValueT2Ksi() + "s + 1)";
+                DecimalFormat df=new DecimalFormat("#.###");
+                df.setRoundingMode(RoundingMode.CEILING);
+                double t2=Math.pow(link.getValueT(), 2);
+                double fixT2=Double.parseDouble(df.format(t2).replace(",","."));
+
+                denominators[b] = "(" + fixT2 + "s² + " + link.getValueT2Ksi() + "s + 1)";
                 b++;
             }
             if (link instanceof DifferentialLink1) {

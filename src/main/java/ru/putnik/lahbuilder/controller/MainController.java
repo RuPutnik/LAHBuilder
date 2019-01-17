@@ -21,7 +21,9 @@ import ru.putnik.lahbuilder.axis.LogarithmicNumberAxis;
 import ru.putnik.lahbuilder.model.AddingLinkModel;
 import ru.putnik.lahbuilder.model.MainModel;
 
+import java.math.RoundingMode;
 import java.net.URL;
+import java.text.DecimalFormat;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
@@ -104,7 +106,10 @@ public class MainController extends Application implements Initializable {
                         text=text+" K = "+item.getValueK();
                     }
                     if(item.getValueT2Ksi()!=0){
-                        text=text+" ξ = "+item.getValueT2Ksi()/(2*item.getValueT());
+                        DecimalFormat df=new DecimalFormat("#.###");
+                        df.setRoundingMode(RoundingMode.CEILING);
+                        double ksi=item.getValueT2Ksi()/(2*item.getValueT());
+                        text=text+" ξ = "+Double.parseDouble(df.format(ksi).replace(",","."));
                     }
                     setText(text);
                 }
