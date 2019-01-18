@@ -51,7 +51,6 @@ public class MainController extends Application implements Initializable {
     private Button buildLah;
     private AddingLinkController addingLinkController;
     private EditingLinkController editingLinkController;
-    //XYChart.Series<Integer,Integer> ser1=new XYChart.Series<>();
 
     private int numberSelectedLink=-1;
     private boolean autoRanging=false;
@@ -86,9 +85,6 @@ public class MainController extends Application implements Initializable {
         xAxis.setUpperBound(1000);
         xAxis.setTickLabelFont(new Font(8));
 
-        //ser1.getData().addAll(new XYChart.Data<>(10,20),new XYChart.Data<>(100,40));
-
-        //chart.getData().add(ser1);
 
         linksListView.setCellFactory(param -> new ListCell<Link>(){
             @Override

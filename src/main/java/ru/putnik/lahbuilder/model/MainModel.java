@@ -2,9 +2,9 @@ package ru.putnik.lahbuilder.model;
 
 import javafx.collections.ObservableList;
 import javafx.scene.chart.LineChart;
-import ru.putnik.lahbuilder.link.AperiodicLink1;
-import ru.putnik.lahbuilder.link.AperiodicLink2;
-import ru.putnik.lahbuilder.link.Link;
+import javafx.scene.chart.XYChart;
+import ru.putnik.lahbuilder.ComparatorLink;
+import ru.putnik.lahbuilder.link.*;
 
 
 import java.math.RoundingMode;
@@ -16,6 +16,7 @@ import java.util.ArrayList;
  */
 public class MainModel {
     private static ArrayList<Link> listLinks=new ArrayList<>();
+    private XYChart.Series<Double,Double> ser;
 
     public void deleteLink(ObservableList<Link> list,int numberElement){
         if(list!=null&&!list.isEmpty()){
@@ -63,9 +64,41 @@ public class MainModel {
         return listLinks;
     }
     public void buildLAH(LineChart<Double,Double> lineChart){
+        ser=new XYChart.Series<>();
         ArrayList<Link> finalListLinks=new ArrayList<>(listLinks);
         finalListLinks=decompositionAperiodicLink2(finalListLinks);
+        double[] cornerFrequency;
+        double[] valueAmlitude;
+        int m=0,n=0;
+        double k=1;
+        int firstIncline=0;
+        double value_20lgk=0;
+        for (int a=0;a<finalListLinks.size();a++){
+            k=k*finalListLinks.get(a).getValueK();
+            if(finalListLinks.get(a) instanceof IntegratingLink){
+                n++;
+                finalListLinks.remove(a);
+            }else if(finalListLinks.get(a) instanceof DifferentialLink){
+                m++;
+                finalListLinks.remove(a);
+            }
+        }
+        cornerFrequency=new double[finalListLinks.size()+2];
+        valueAmlitude=new double[cornerFrequency.length];
+        cornerFrequency[0]=0.1;
+        finalListLinks.sort(new ComparatorLink());
+        int b=1;
+        for(Link l:finalListLinks){
+            cornerFrequency[b]=(1/l.getValueT());
+            b++;
+        }
+        cornerFrequency[cornerFrequency.length-1]=1000;
+        firstIncline=20*(m-n);
+        value_20lgk=20*Math.log10(k);
         //TO DO
+
+        //ser.getData().addAll(new XYChart.Data<>(10,20),new XYChart.Data<>(100,40));
+        //lineChart.getData().add(ser);
     }
 
     static ArrayList<Link> getListLinks() {
