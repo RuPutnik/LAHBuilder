@@ -64,15 +64,21 @@ public class MainModel {
         return listLinks;
     }
     public void buildLAH(LineChart<Double,Double> lineChart){
+        lineChart.getData().clear();
+        double lowFreq=0.1;//левая граница шкалы
+        double upperFreq=1000;//правая граница шкалы
         ser=new XYChart.Series<>();
         ArrayList<Link> finalListLinks=new ArrayList<>(listLinks);
         finalListLinks=decompositionAperiodicLink2(finalListLinks);
         double[] cornerFrequency;
-        double[] valueAmlitude;
+        double[] valueAmplitude;
         int m=0,n=0;
         double k=1;
         int firstIncline=0;
         double value_20lgk=0;
+        for (Link finalListLink : finalListLinks) {
+            k = k * finalListLink.getValueK();
+        }
         for (int a=0;a<finalListLinks.size();a++){
             k=k*finalListLinks.get(a).getValueK();
             if(finalListLinks.get(a) instanceof IntegratingLink){
@@ -83,22 +89,31 @@ public class MainModel {
                 finalListLinks.remove(a);
             }
         }
-        cornerFrequency=new double[finalListLinks.size()+2];
-        valueAmlitude=new double[cornerFrequency.length];
-        cornerFrequency[0]=0.1;
+        //cornerFrequency=new double[finalListLinks.size()+2];
+        cornerFrequency=new double[2];
+        valueAmplitude=new double[cornerFrequency.length];
+        cornerFrequency[0]=lowFreq;
         finalListLinks.sort(new ComparatorLink());
         int b=1;
         for(Link l:finalListLinks){
             cornerFrequency[b]=(1/l.getValueT());
             b++;
         }
-        cornerFrequency[cornerFrequency.length-1]=1000;
+        //cornerFrequency[cornerFrequency.length-1]=upperFreq;
         firstIncline=20*(m-n);
-        value_20lgk=20*Math.log10(k);
+        value_20lgk=20*Math.log10(k);//20
+        System.out.println(value_20lgk);
+        valueAmplitude[0]=value_20lgk-firstIncline*-Math.log10(lowFreq);//Значение амплитуды первой точки //40
+        valueAmplitude[1]=valueAmplitude[0]+firstIncline*(1+Math.log10(cornerFrequency[1]));
+       // System.out.println(valueAmplitude[0]+firstIncline*(1+Math.log10(cornerFrequency[1])));
+        //40 + (-20)*-log10(0.2) = 40 + (-20)*0.69=40-13.8=26.2
         //TO DO
 
-        //ser.getData().addAll(new XYChart.Data<>(10,20),new XYChart.Data<>(100,40));
-        //lineChart.getData().add(ser);
+
+        for (int a=0;a<valueAmplitude.length;a++){
+            ser.getData().add(new XYChart.Data<>(cornerFrequency[a],valueAmplitude[a]));
+        }
+        lineChart.getData().add(ser);
     }
 
     static ArrayList<Link> getListLinks() {

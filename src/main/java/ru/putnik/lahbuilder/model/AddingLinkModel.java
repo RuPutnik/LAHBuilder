@@ -33,7 +33,7 @@ public class AddingLinkModel {
         int countNum=0,countDen=0;
 
         for (Link aLinksList : linksList) {
-            if (aLinksList instanceof AperiodicLink1) countDen++;
+            if (aLinksList instanceof AperiodicLink1||aLinksList instanceof IntegratingLink) countDen++;
             if (aLinksList instanceof AperiodicLink2 || aLinksList instanceof OscillatoryLink) countDen++;
             if (aLinksList instanceof DifferentialLink1) countNum++;
         }
