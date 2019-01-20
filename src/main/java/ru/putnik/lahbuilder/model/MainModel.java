@@ -74,13 +74,12 @@ public class MainModel {
         double[] valueAmplitude;
         int m=0,n=0;
         double k=1;
-        int firstIncline=0;
+        int incline=0;
         double value_20lgk=0;
         for (Link finalListLink : finalListLinks) {
             k = k * finalListLink.getValueK();
         }
         for (int a=0;a<finalListLinks.size();a++){
-            k=k*finalListLinks.get(a).getValueK();
             if(finalListLinks.get(a) instanceof IntegratingLink){
                 n++;
                 finalListLinks.remove(a);
@@ -90,7 +89,7 @@ public class MainModel {
             }
         }
         //cornerFrequency=new double[finalListLinks.size()+2];
-        cornerFrequency=new double[2];
+        cornerFrequency=new double[3];
         valueAmplitude=new double[cornerFrequency.length];
         cornerFrequency[0]=lowFreq;
         finalListLinks.sort(new ComparatorLink());
@@ -99,13 +98,17 @@ public class MainModel {
             cornerFrequency[b]=(1/l.getValueT());
             b++;
         }
-        //cornerFrequency[cornerFrequency.length-1]=upperFreq;
-        firstIncline=20*(m-n);
+        cornerFrequency[cornerFrequency.length-1]=upperFreq;
+        incline=20*(m-n);
+        System.out.println("k= "+k);
         value_20lgk=20*Math.log10(k);//20
-        System.out.println(value_20lgk);
-        valueAmplitude[0]=value_20lgk-firstIncline*-Math.log10(lowFreq);//Значение амплитуды первой точки //40
-        valueAmplitude[1]=valueAmplitude[0]+firstIncline*(1+Math.log10(cornerFrequency[1]));
-       // System.out.println(valueAmplitude[0]+firstIncline*(1+Math.log10(cornerFrequency[1])));
+        System.out.println("20valk="+value_20lgk);
+        valueAmplitude[0]=value_20lgk-incline*-Math.log10(lowFreq);//Значение амплитуды первой точки //40
+        valueAmplitude[1]=valueAmplitude[0]+incline*(Math.log10(cornerFrequency[1]/cornerFrequency[0]));
+        incline=incline+finalListLinks.get(0).getIncline();
+        valueAmplitude[2]=valueAmplitude[1]+incline*(Math.log10(cornerFrequency[2]/cornerFrequency[1]));//примерно 0.75
+        System.out.println(valueAmplitude[2]);
+       // System.out.println(valueAmplitude[0]+firstIncline*(1+Math.log10(cornerFreq-uency[1])));
         //40 + (-20)*-log10(0.2) = 40 + (-20)*0.69=40-13.8=26.2
         //TO DO
 

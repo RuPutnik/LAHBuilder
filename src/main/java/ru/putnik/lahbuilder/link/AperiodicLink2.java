@@ -35,7 +35,7 @@ public class AperiodicLink2 extends Link {
     }
 
     @Override
-    public double getIncline() {
+    public int getIncline() {
         return -40;
     }
 }

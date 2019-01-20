@@ -30,7 +30,7 @@ public class IntegratingLink extends Link{
     }
 
     @Override
-    public double getIncline() {
+    public int getIncline() {
         return 0;
     }
 }
