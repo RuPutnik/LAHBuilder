@@ -97,15 +97,14 @@ public class MainModel {
         cornerFrequency=new double[finalListLinks.size()+2];
         valueAmplitude=new double[cornerFrequency.length];
         cornerFrequency[0]=lowFreq;
-        cornerFrequency[cornerFrequency.length-1]=upperFreq;
         finalListLinks.sort(new LinkComparator());
         int b=1;
         for(Link l:finalListLinks){
             cornerFrequency[b]=(1/l.getValueT());
             b++;
         }
-
         cornerFrequency[cornerFrequency.length-1]=upperFreq;
+
         incline=20*(m-n);
         value_20lgk=20*Math.log10(k);
         valueAmplitude[0]=value_20lgk-incline*-Math.log10(lowFreq);
@@ -116,10 +115,9 @@ public class MainModel {
                 incline = incline + finalListLinks.get(a).getIncline();
             }
         }
-        System.out.println("-------------------");
+        /*System.out.println("-------------------");
         System.out.println(Arrays.toString(cornerFrequency));
-        System.out.println(Arrays.toString(valueAmplitude));
-
+        System.out.println(Arrays.toString(valueAmplitude));*/
 
         for (int a=0;a<valueAmplitude.length;a++){
             ser.getData().add(new XYChart.Data<>(cornerFrequency[a],valueAmplitude[a]));
