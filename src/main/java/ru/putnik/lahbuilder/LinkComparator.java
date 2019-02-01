@@ -7,7 +7,7 @@ import java.util.Comparator;
 /**
  * Создано 18.01.2019 в 18:38
  */
-public class ComparatorLink implements Comparator<Link> {
+public class LinkComparator implements Comparator<Link> {
     @Override
     public int compare(Link o1, Link o2) {
         return Double.compare(1 / o1.getValueT(), 1 / o2.getValueT());

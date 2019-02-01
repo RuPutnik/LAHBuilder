@@ -77,8 +77,8 @@ public class MainController extends Application implements Initializable {
         yAxis.setAutoRanging(autoRanging);
         xAxis.setAutoRanging(autoRanging);
 
-        yAxis.setUpperBound(60);
-        yAxis.setLowerBound(-60);
+        yAxis.setUpperBound(80);
+        yAxis.setLowerBound(-80);
         yAxis.setTickUnit(20);
 
         xAxis.setLowerBound(0.1);
