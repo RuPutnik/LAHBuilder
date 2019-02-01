@@ -6,7 +6,6 @@ import javafx.scene.chart.XYChart;
 import ru.putnik.lahbuilder.LinkComparator;
 import ru.putnik.lahbuilder.link.*;
 
-
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.*;

@@ -9,6 +9,8 @@ import javafx.beans.property.SimpleDoubleProperty;
 import javafx.scene.chart.ValueAxis;
 import javafx.util.Duration;
 
+import java.awt.font.TextAttribute;
+import java.text.AttributedString;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -151,10 +153,26 @@ public class LogarithmicNumberAxis extends ValueAxis<Number> {
             double valueDouble=Double.parseDouble(formatValue.replace(",",".").replace(" ",""));
 
             if((int)Math.log10(valueDouble)==Math.log10(valueDouble)){
-                return formatValue;
+                int degree = (int) Math.log10(valueDouble);
+                return "10"+formatterDegree(String.valueOf(degree));
             }else {
                 return "";
             }
+    }
+
+    private String formatterDegree(String str) {
+        str = str.replaceAll("-", "⁻");
+        str = str.replaceAll("0", "⁰");
+        str = str.replaceAll("1", "¹");
+        str = str.replaceAll("2", "²");
+        str = str.replaceAll("3", "³");
+        str = str.replaceAll("4", "⁴");
+        str = str.replaceAll("5", "⁵");
+        str = str.replaceAll("6", "⁶");
+        str = str.replaceAll("7", "⁷");
+        str = str.replaceAll("8", "⁸");
+        str = str.replaceAll("9", "⁹");
+        return str;
     }
 
     /**
@@ -176,15 +194,11 @@ public class LogarithmicNumberAxis extends ValueAxis<Number> {
             final double oldLowerBound = getLowerBound();
             setLowerBound(lowerBound);
             setUpperBound(upperBound);
-            if (animate) {
+            if (animate){
                 animator.stop(currentAnimationID);
                 currentAnimationID = animator.animate(
-                        new KeyFrame(Duration.ZERO,
-                                new KeyValue(currentLowerBound, oldLowerBound)
-                        ),
-                        new KeyFrame(Duration.millis(700),
-                                new KeyValue(currentLowerBound, lowerBound)
-                        )
+                        new KeyFrame(Duration.ZERO,new KeyValue(currentLowerBound, oldLowerBound)),
+                        new KeyFrame(Duration.millis(700),new KeyValue(currentLowerBound, lowerBound))
                 );
             } else {
                 currentLowerBound.set(lowerBound);
@@ -219,6 +233,7 @@ public class LogarithmicNumberAxis extends ValueAxis<Number> {
             return ((deltaV) / delta) * getWidth();
         }
     }
+
 
     /**
      * Exception to be thrown when a bound value isn't supported by the

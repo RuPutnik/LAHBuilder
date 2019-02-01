@@ -83,7 +83,7 @@ public class MainController extends Application implements Initializable {
 
         xAxis.setLowerBound(0.1);
         xAxis.setUpperBound(1000);
-        xAxis.setTickLabelFont(new Font(8));
+        xAxis.setTickLabelFont(new Font(8.9));
 
 
         linksListView.setCellFactory(param -> new ListCell<Link>(){
