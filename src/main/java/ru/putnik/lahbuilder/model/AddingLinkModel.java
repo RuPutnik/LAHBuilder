@@ -73,7 +73,6 @@ public class AddingLinkModel {
                 df.setRoundingMode(RoundingMode.HALF_DOWN);
                 double t2=Math.pow(link.getValueT(), 2);
                 double fixT2=Double.parseDouble(df.format(t2).replace(",","."));
-                System.out.println(t2);
 
                 denominators[b] = "(" + fixT2 + "s² + " + link.getValueT2Ksi() + "s + 1)";
                 b++;

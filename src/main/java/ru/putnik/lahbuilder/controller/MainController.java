@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -49,6 +50,13 @@ public class MainController extends Application implements Initializable {
     private Button editLinkButton;
     @FXML
     private Button buildLah;
+    @FXML
+    private Button clearChart;
+    @FXML
+    private Button deleteAll;
+    @FXML
+    private Button copyLink;
+
     private AddingLinkController addingLinkController;
     private EditingLinkController editingLinkController;
 
@@ -63,7 +71,7 @@ public class MainController extends Application implements Initializable {
         primaryStage.setScene(new Scene(parent));
 
         primaryStage.setWidth(915);
-        primaryStage.setHeight(500);
+        primaryStage.setHeight(530);
         primaryStage.setResizable(false);
         primaryStage.show();
     }
@@ -116,12 +124,13 @@ public class MainController extends Application implements Initializable {
         deleteLinkButton.setOnAction(new DeletingLink());
         editLinkButton.setOnAction(new EditingLink());
         buildLah.setOnAction(new BuildingLah());
+        clearChart.setOnAction(new ClearChart());
         linksListView.getSelectionModel().selectedIndexProperty().addListener(new ChoiceLinkOnView<>());
         primaryStage.setOnCloseRequest(new CloseMainWindow());
+        deleteAll.setOnAction(new DeleteAllLinks());
+        copyLink.setOnAction(new CopyLink());
 
         addingLinkController=new AddingLinkController(linksListView,tfLabel);
-
-
     }
     public class AddingLink implements EventHandler<ActionEvent>{
 
@@ -161,7 +170,43 @@ public class MainController extends Application implements Initializable {
 
         @Override
         public void handle(ActionEvent event) {
-            mainModel.buildLAH(chart);
+            mainModel.buildLAH(chart, 0.1, 1000);
+        }
+    }
+    public class ClearChart implements EventHandler<ActionEvent>{
+
+        @Override
+        public void handle(ActionEvent event) {
+            chart.getData().clear();
+        }
+    }
+    public class DeleteAllLinks implements EventHandler<ActionEvent>{
+
+        @Override
+        public void handle(ActionEvent event) {
+            linksListView.getItems().clear();
+            MainModel.getListLinks().clear();
+            tfLabel.setText("W(s) = ");
+        }
+    }
+    public class CopyLink implements EventHandler<ActionEvent>{
+
+        @Override
+        public void handle(ActionEvent event) {
+            if(numberSelectedLink!=-1) {
+               Link cLink=linksListView.getItems().get(numberSelectedLink).clone();
+               linksListView.getItems().add(cLink);
+                MainModel.addLink(cLink);
+                AddingLinkModel model = addingLinkController.getLinkModel();
+                model.setTransferFunction(AddingLinkModel.formationFunction(linksListView.getItems()));
+                tfLabel.setText("W(s) = "+ model.getTransferFunction());
+            }else {
+                Alert alert=new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Ошибка копирования звена");
+                alert.setHeaderText("При попытке копировать звено возникла ошибка!");
+                alert.setContentText("Звено для копирования не выбрано");
+                alert.show();
+            }
         }
     }
     public class ChoiceLinkOnView<Link> implements ChangeListener<Link> {

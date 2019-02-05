@@ -62,10 +62,8 @@ public class MainModel {
         }
         return listLinks;
     }
-    public void buildLAH(LineChart<Double,Double> lineChart){
+    public void buildLAH(LineChart<Double,Double> lineChart, double lowFreq, double upperFreq){
         lineChart.getData().clear();
-        double lowFreq=0.1;//левая граница шкалы
-        double upperFreq=1000;//правая граница шкалы
         ser=new XYChart.Series<>();
         ArrayList<Link> finalListLinks=new ArrayList<>(listLinks);
         finalListLinks=decompositionAperiodicLink2(finalListLinks);
@@ -115,9 +113,6 @@ public class MainModel {
                 incline = incline + finalListLinks.get(a).getIncline();
             }
         }
-        /*System.out.println("-------------------");
-        System.out.println(Arrays.toString(cornerFrequency));
-        System.out.println(Arrays.toString(valueAmplitude));*/
 
         for (int a=0;a<valueAmplitude.length;a++){
             ser.getData().add(new XYChart.Data<>(cornerFrequency[a],valueAmplitude[a]));
@@ -125,7 +120,7 @@ public class MainModel {
         lineChart.getData().add(ser);
     }
 
-    static ArrayList<Link> getListLinks() {
+    public static ArrayList<Link> getListLinks() {
         return listLinks;
     }
     public static void addLink(Link link){
