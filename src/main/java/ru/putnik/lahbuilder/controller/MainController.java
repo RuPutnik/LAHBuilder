@@ -17,6 +17,7 @@ import javafx.scene.control.*;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+import ru.putnik.lahbuilder.MainConstants;
 import ru.putnik.lahbuilder.link.Link;
 import ru.putnik.lahbuilder.axis.LogarithmicNumberAxis;
 import ru.putnik.lahbuilder.model.AddingLinkModel;
@@ -30,6 +31,7 @@ import java.util.ResourceBundle;
  * Создано 03.01.2019 в 23:45
  */
 public class MainController extends Application implements Initializable {
+
     private MainModel mainModel=new MainModel();
 
     @FXML
@@ -56,6 +58,16 @@ public class MainController extends Application implements Initializable {
     private Button deleteAll;
     @FXML
     private Button copyLink;
+    @FXML
+    public TextField lowFreqField;
+    @FXML
+    public TextField upperFreqField;
+    @FXML
+    public TextField minValueAmplitude;
+    @FXML
+    public TextField maxValueAmplitude;
+    @FXML
+    public CheckBox autoscaleCheckBox;
 
     private AddingLinkController addingLinkController;
     private EditingLinkController editingLinkController;
@@ -71,7 +83,7 @@ public class MainController extends Application implements Initializable {
         primaryStage.setScene(new Scene(parent));
 
         primaryStage.setWidth(915);
-        primaryStage.setHeight(530);
+        primaryStage.setHeight(560);
         primaryStage.setResizable(false);
         primaryStage.show();
     }
@@ -82,17 +94,21 @@ public class MainController extends Application implements Initializable {
         tfLabel.setFocusTraversable(false);
         chart.setCreateSymbols(false);
         chart.setLegendVisible(false);
-        yAxis.setAutoRanging(autoRanging);
-        xAxis.setAutoRanging(autoRanging);
 
-        yAxis.setUpperBound(80);
-        yAxis.setLowerBound(-80);
+        yAxis.setUpperBound(MainConstants.MAX_VALUE_AMPLITUDE);
+        yAxis.setLowerBound(MainConstants.MIN_VALUE_AMPLITUDE);
         yAxis.setTickUnit(20);
 
-        xAxis.setLowerBound(0.1);
-        xAxis.setUpperBound(1000);
+        xAxis.setLowerBound(MainConstants.LOW_FREQUENCY);
+        xAxis.setUpperBound(MainConstants.UPPER_FREQUENCY);
+        yAxis.setAutoRanging(autoRanging);
+        xAxis.setAutoRanging(autoRanging);
         xAxis.setTickLabelFont(new Font(8.9));
 
+        lowFreqField.setText(String.valueOf(MainConstants.LOW_FREQUENCY));
+        upperFreqField.setText(String.valueOf(MainConstants.UPPER_FREQUENCY));
+        minValueAmplitude.setText(String.valueOf(MainConstants.MIN_VALUE_AMPLITUDE));
+        maxValueAmplitude.setText(String.valueOf(MainConstants.MAX_VALUE_AMPLITUDE));
 
         linksListView.setCellFactory(param -> new ListCell<Link>(){
             @Override
@@ -129,6 +145,7 @@ public class MainController extends Application implements Initializable {
         primaryStage.setOnCloseRequest(new CloseMainWindow());
         deleteAll.setOnAction(new DeleteAllLinks());
         copyLink.setOnAction(new CopyLink());
+        autoscaleCheckBox.setOnAction(new AutoScalable());
 
         addingLinkController=new AddingLinkController(linksListView,tfLabel);
     }
@@ -170,7 +187,47 @@ public class MainController extends Application implements Initializable {
 
         @Override
         public void handle(ActionEvent event) {
-            mainModel.buildLAH(chart, 0.1, 1000);
+            if (!autoRanging) {
+                if (checkBorders()) {
+                    yAxis.setUpperBound(Double.parseDouble(maxValueAmplitude.getText()));
+                    yAxis.setLowerBound(Double.parseDouble(minValueAmplitude.getText()));
+                    xAxis.setLowerBound(Double.parseDouble(lowFreqField.getText()));
+                    xAxis.setUpperBound(Double.parseDouble(upperFreqField.getText()));
+                    mainModel.buildLAH(chart, Double.parseDouble(lowFreqField.getText()), Double.parseDouble(upperFreqField.getText()), autoRanging);
+                } else {
+                    Alert alert = new Alert(Alert.AlertType.WARNING);
+                    alert.setTitle("Ошибка построения асимптотической ЛАХ");
+                    alert.setHeaderText("При попытке построить ЛАХ возникла ошибка!");
+                    alert.setContentText("Значения границ области построения ЛАХ заданы неверно! Возвращение к стандартным значениям");
+                    alert.show();
+                    lowFreqField.setText(String.valueOf(MainConstants.LOW_FREQUENCY));
+                    upperFreqField.setText(String.valueOf(MainConstants.UPPER_FREQUENCY));
+                    minValueAmplitude.setText(String.valueOf(MainConstants.MIN_VALUE_AMPLITUDE));
+                    maxValueAmplitude.setText(String.valueOf(MainConstants.MAX_VALUE_AMPLITUDE));
+                }
+            }else {
+                mainModel.buildLAH(chart, Double.parseDouble(lowFreqField.getText()), Double.parseDouble(upperFreqField.getText()), autoRanging);
+                //Добавить вычисления для автомасштабирования: вытащить макс и мин амплитуд и макс и мин частоты и прибавить или отнять одно деление
+            }
+        }
+        boolean checkBorders(){
+            double maxVA;
+            double minVA;
+            double lf;
+            double uf;
+            try{
+                maxVA=Double.parseDouble(maxValueAmplitude.getText());
+                minVA=Double.parseDouble(minValueAmplitude.getText());
+                lf=Double.parseDouble(lowFreqField.getText());
+                uf=Double.parseDouble(upperFreqField.getText());
+            }catch (NumberFormatException e){
+                return false;
+            }
+            if(maxVA<=minVA||uf<=lf) {
+                return false;
+            }
+
+            return true;
         }
     }
     public class ClearChart implements EventHandler<ActionEvent>{
@@ -207,6 +264,18 @@ public class MainController extends Application implements Initializable {
                 alert.setContentText("Звено для копирования не выбрано");
                 alert.show();
             }
+        }
+    }
+    public class AutoScalable implements EventHandler<ActionEvent>{
+
+        @Override
+        public void handle(ActionEvent event) {
+            autoRanging=!autoRanging;
+
+            lowFreqField.setEditable(!autoRanging);
+            upperFreqField.setEditable(!autoRanging);
+            minValueAmplitude.setEditable(!autoRanging);
+            maxValueAmplitude.setEditable(!autoRanging);
         }
     }
     public class ChoiceLinkOnView<Link> implements ChangeListener<Link> {

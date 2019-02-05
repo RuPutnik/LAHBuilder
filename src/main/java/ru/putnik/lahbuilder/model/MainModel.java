@@ -62,7 +62,7 @@ public class MainModel {
         }
         return listLinks;
     }
-    public void buildLAH(LineChart<Double,Double> lineChart, double lowFreq, double upperFreq){
+    public void buildLAH(LineChart<Double,Double> lineChart, double lowFreq, double upperFreq,boolean autoRanging){
         lineChart.getData().clear();
         ser=new XYChart.Series<>();
         ArrayList<Link> finalListLinks=new ArrayList<>(listLinks);
@@ -94,7 +94,7 @@ public class MainModel {
 
         cornerFrequency=new double[finalListLinks.size()+2];
         valueAmplitude=new double[cornerFrequency.length];
-        cornerFrequency[0]=lowFreq;
+            cornerFrequency[0] = lowFreq;
         finalListLinks.sort(new LinkComparator());
         int b=1;
         for(Link l:finalListLinks){
@@ -102,6 +102,11 @@ public class MainModel {
             b++;
         }
         cornerFrequency[cornerFrequency.length-1]=upperFreq;
+
+        if(autoRanging){
+           cornerFrequency[0]=Math.pow(10,Math.log10(cornerFrequency[1])-1);
+           cornerFrequency[cornerFrequency.length-1]=Math.pow(10,Math.log10(cornerFrequency[cornerFrequency.length-2])+1);
+        }
 
         incline=20*(m-n);
         value_20lgk=20*Math.log10(k);
