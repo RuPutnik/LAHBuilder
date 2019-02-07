@@ -103,14 +103,19 @@ public class MainModel {
         }
         cornerFrequency[cornerFrequency.length-1]=upperFreq;
 
+        if(cornerFrequency[1]<cornerFrequency[0])
+            cornerFrequency[0]=Math.pow(10,(int)Math.log10(cornerFrequency[1])-1);
+
         if(autoRanging){
-           cornerFrequency[0]=Math.pow(10,Math.log10(cornerFrequency[1])-1);
-           cornerFrequency[cornerFrequency.length-1]=Math.pow(10,Math.log10(cornerFrequency[cornerFrequency.length-2])+1);
+           cornerFrequency[0]=Math.pow(10,(int)Math.log10(cornerFrequency[1])-1);
+           cornerFrequency[cornerFrequency.length-1]=Math.pow(10,(int)Math.log10(cornerFrequency[cornerFrequency.length-2])+1);
+            System.out.println("1 "+cornerFrequency[0]);
+            System.out.println("2 "+cornerFrequency[cornerFrequency.length-1]);
         }
 
         incline=20*(m-n);
         value_20lgk=20*Math.log10(k);
-        valueAmplitude[0]=value_20lgk-incline*-Math.log10(lowFreq);
+        valueAmplitude[0]=value_20lgk-incline*-Math.log10(cornerFrequency[0]);
 
        for(int a=0;a<valueAmplitude.length-1;a++){
             valueAmplitude[a+1]=valueAmplitude[a]+incline*(Math.log10(cornerFrequency[a+1]/cornerFrequency[a]));

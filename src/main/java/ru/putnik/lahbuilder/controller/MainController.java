@@ -94,6 +94,7 @@ public class MainController extends Application implements Initializable {
         tfLabel.setFocusTraversable(false);
         chart.setCreateSymbols(false);
         chart.setLegendVisible(false);
+        chart.setAnimated(false);
 
         yAxis.setUpperBound(MainConstants.MAX_VALUE_AMPLITUDE);
         yAxis.setLowerBound(MainConstants.MIN_VALUE_AMPLITUDE);
@@ -193,7 +194,7 @@ public class MainController extends Application implements Initializable {
                     yAxis.setLowerBound(Double.parseDouble(minValueAmplitude.getText()));
                     xAxis.setLowerBound(Double.parseDouble(lowFreqField.getText()));
                     xAxis.setUpperBound(Double.parseDouble(upperFreqField.getText()));
-                    mainModel.buildLAH(chart, Double.parseDouble(lowFreqField.getText()), Double.parseDouble(upperFreqField.getText()), autoRanging);
+                    mainModel.buildLAH(chart, Double.parseDouble(lowFreqField.getText()), Double.parseDouble(upperFreqField.getText()), false);
                 } else {
                     Alert alert = new Alert(Alert.AlertType.WARNING);
                     alert.setTitle("Ошибка построения асимптотической ЛАХ");
@@ -206,7 +207,32 @@ public class MainController extends Application implements Initializable {
                     maxValueAmplitude.setText(String.valueOf(MainConstants.MAX_VALUE_AMPLITUDE));
                 }
             }else {
-                mainModel.buildLAH(chart, Double.parseDouble(lowFreqField.getText()), Double.parseDouble(upperFreqField.getText()), autoRanging);
+                mainModel.buildLAH(chart, MainConstants.LOW_FREQUENCY, MainConstants.UPPER_FREQUENCY, true);
+                double minFreq=chart.getData().get(0).getData().get(0).getXValue();
+                double maxFreq=chart.getData().get(0).getData().get(chart.getData().get(0).getData().size()-1).getXValue();
+                double minAmplit=Double.MAX_VALUE;
+                double maxAmplit=-Double.MAX_VALUE;
+                for (int a=0;a<chart.getData().get(0).getData().size();a++){
+                    if(chart.getData().get(0).getData().get(a).getYValue()<minAmplit){
+                        minAmplit=chart.getData().get(0).getData().get(a).getYValue();
+                    }
+                }
+                for (int a=0;a<chart.getData().get(0).getData().size();a++){
+                    System.out.println(chart.getData().get(0).getData().get(a).getYValue()+":"+maxAmplit);
+                    if(chart.getData().get(0).getData().get(a).getYValue()>maxAmplit){
+
+                        maxAmplit=chart.getData().get(0).getData().get(a).getYValue();
+                    }
+                }
+                System.out.println("----------------------");
+                System.out.println(maxAmplit);
+                System.out.println(minAmplit);
+                System.out.println(minFreq);
+                System.out.println(maxFreq);
+                yAxis.setUpperBound(maxAmplit);
+                yAxis.setLowerBound(minAmplit);
+                xAxis.setLowerBound(minFreq);
+                xAxis.setUpperBound(maxFreq);
                 //Добавить вычисления для автомасштабирования: вытащить макс и мин амплитуд и макс и мин частоты и прибавить или отнять одно деление
             }
         }
