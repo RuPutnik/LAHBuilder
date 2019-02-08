@@ -3,16 +3,19 @@ package ru.putnik.lahbuilder.controller;
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
@@ -31,7 +34,6 @@ import java.util.ResourceBundle;
  * Создано 03.01.2019 в 23:45
  */
 public class MainController extends Application implements Initializable {
-
     private MainModel mainModel=new MainModel();
 
     @FXML
@@ -68,6 +70,16 @@ public class MainController extends Application implements Initializable {
     public TextField maxValueAmplitude;
     @FXML
     public CheckBox autoscaleCheckBox;
+    @FXML
+    public MenuItem loadTFMenu;
+    @FXML
+    public MenuItem saveTFMenu;
+    @FXML
+    public MenuItem helpMenu;
+    @FXML
+    public MenuItem exitMenu;
+    @FXML
+    public CheckBox pointsCheckBox;
 
     private AddingLinkController addingLinkController;
     private EditingLinkController editingLinkController;
@@ -92,7 +104,7 @@ public class MainController extends Application implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         tfLabel.setEditable(false);
         tfLabel.setFocusTraversable(false);
-        chart.setCreateSymbols(false);
+        chart.setCreateSymbols(false);// - добавить отдельный чекбокс "информация в точках"
         chart.setLegendVisible(false);
         chart.setAnimated(false);
 
@@ -147,6 +159,10 @@ public class MainController extends Application implements Initializable {
         deleteAll.setOnAction(new DeleteAllLinks());
         copyLink.setOnAction(new CopyLink());
         autoscaleCheckBox.setOnAction(new AutoScalable());
+        exitMenu.setOnAction(new Exit());
+        helpMenu.setOnAction(new Help());
+        saveTFMenu.setOnAction(new SaveTF());
+        loadTFMenu.setOnAction(new LoadTF());
 
         addingLinkController=new AddingLinkController(linksListView,tfLabel);
     }
@@ -218,22 +234,27 @@ public class MainController extends Application implements Initializable {
                     }
                 }
                 for (int a=0;a<chart.getData().get(0).getData().size();a++){
-                    System.out.println(chart.getData().get(0).getData().get(a).getYValue()+":"+maxAmplit);
                     if(chart.getData().get(0).getData().get(a).getYValue()>maxAmplit){
-
                         maxAmplit=chart.getData().get(0).getData().get(a).getYValue();
                     }
                 }
-                System.out.println("----------------------");
-                System.out.println(maxAmplit);
-                System.out.println(minAmplit);
-                System.out.println(minFreq);
-                System.out.println(maxFreq);
                 yAxis.setUpperBound(maxAmplit);
                 yAxis.setLowerBound(minAmplit);
                 xAxis.setLowerBound(minFreq);
                 xAxis.setUpperBound(maxFreq);
-                //Добавить вычисления для автомасштабирования: вытащить макс и мин амплитуд и макс и мин частоты и прибавить или отнять одно деление
+            }
+            if(pointsCheckBox.isSelected()){
+                chart.setCreateSymbols(true);
+                for (int c = 0; c < chart.getData().size(); c++) {
+                    ObservableList<XYChart.Data<Double, Double>> dataList = ((XYChart.Series<Double, Double>) chart.getData().get(c)).getData();
+                    dataList.forEach(data -> {
+                        Node node = data.getNode();
+                        Tooltip tooltip = new Tooltip("Частота: " + data.getXValue().toString() + '\n' + "Амплитуда: " + data.getYValue().toString());
+                        Tooltip.install(node, tooltip);
+                    });
+                }
+            }else {
+                chart.setCreateSymbols(false);
             }
         }
         boolean checkBorders(){
@@ -316,6 +337,34 @@ public class MainController extends Application implements Initializable {
         @Override
         public void handle(WindowEvent event) {
             System.exit(0);
+        }
+    }
+    public class Exit implements EventHandler<ActionEvent>{
+
+        @Override
+        public void handle(ActionEvent event) {
+            System.exit(0);
+        }
+    }
+    public class Help implements EventHandler<ActionEvent>{
+
+        @Override
+        public void handle(ActionEvent event) {
+
+        }
+    }
+    public class SaveTF implements EventHandler<ActionEvent>{
+
+        @Override
+        public void handle(ActionEvent event) {
+
+        }
+    }
+    public class LoadTF implements EventHandler<ActionEvent>{
+
+        @Override
+        public void handle(ActionEvent event) {
+
         }
     }
 }

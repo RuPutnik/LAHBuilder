@@ -109,8 +109,6 @@ public class MainModel {
         if(autoRanging){
            cornerFrequency[0]=Math.pow(10,(int)Math.log10(cornerFrequency[1])-1);
            cornerFrequency[cornerFrequency.length-1]=Math.pow(10,(int)Math.log10(cornerFrequency[cornerFrequency.length-2])+1);
-            System.out.println("1 "+cornerFrequency[0]);
-            System.out.println("2 "+cornerFrequency[cornerFrequency.length-1]);
         }
 
         incline=20*(m-n);
