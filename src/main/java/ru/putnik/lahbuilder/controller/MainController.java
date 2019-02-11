@@ -83,6 +83,7 @@ public class MainController extends Application implements Initializable {
 
     private AddingLinkController addingLinkController;
     private EditingLinkController editingLinkController;
+    private InfoController infoController;
 
     private int numberSelectedLink=-1;
     private boolean autoRanging=false;
@@ -350,7 +351,8 @@ public class MainController extends Application implements Initializable {
 
         @Override
         public void handle(ActionEvent event) {
-
+            infoController=new InfoController();
+            infoController.createWindow(new Stage(),425,490);
         }
     }
     public class SaveTF implements EventHandler<ActionEvent>{

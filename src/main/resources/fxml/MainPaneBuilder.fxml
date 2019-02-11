@@ -18,7 +18,7 @@
 <?import javafx.scene.text.Font?>
 <?import ru.putnik.lahbuilder.axis.LogarithmicNumberAxis?>
 
-<BorderPane prefHeight="520.0" prefWidth="904.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.putnik.lahbuilder.controller.MainController">
+<BorderPane prefHeight="520.0" prefWidth="904.0" xmlns="http://javafx.com/javafx/8.0.72" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.putnik.lahbuilder.controller.MainController">
     <top>
         <MenuBar>
             <Menu text="Файл">
@@ -80,12 +80,13 @@
         </HBox>
     </center>
     <bottom>
-        <HBox alignment="CENTER_RIGHT" spacing="10">
+        <HBox alignment="CENTER_RIGHT" spacing="10" style=" -fx-border-color:lightgray; -fx-border-width: 1; -fx-border-style: solid; -fx-border-radius: 80;">
             <CheckBox mnemonicParsing="false" text="Указывать точки сопряжения асимптот" fx:id="pointsCheckBox">
                 <padding>
-                    <Insets right="130" />
+                    <Insets right="80" />
                 </padding>
             </CheckBox>
+            <Label text="Границы: "/>
             <Label text="Л" />
             <TextField fx:id="lowFreqField" maxWidth="60" />
             <Label text="П" />
@@ -96,7 +97,7 @@
             <TextField fx:id="maxValueAmplitude" maxWidth="60" />
             <CheckBox fx:id="autoscaleCheckBox" text="Автомасштабирование" />
             <padding>
-                <Insets bottom="5" right="5" />
+                <Insets bottom="5" right="5" top="5"/>
             </padding>
         </HBox>
     </bottom>
